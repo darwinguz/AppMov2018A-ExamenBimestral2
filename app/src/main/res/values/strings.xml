@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">ExamenBimestral2</string>
+    <string name="iniciar_sesion">Iniciar Sesión</string>
+    <string name="registrarse">Registrarse</string>
+    <string name="correo">Email</string>
+    <string name="contrasena">Password</string>
 </resources>
