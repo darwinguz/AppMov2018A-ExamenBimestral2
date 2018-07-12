@@ -23,7 +23,7 @@
         app:layout_constraintTop_toBottomOf="@+id/imageButton4">
 
         <Button
-            android:id="@+id/btn_log_in_cliente"
+            android:id="@+id/btn_log_in"
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:text="@string/iniciar_sesion"
@@ -31,7 +31,7 @@
             tools:layout_editor_absoluteY="148dp" />
 
         <Button
-            android:id="@+id/btn_sign_up_cliente"
+            android:id="@+id/btn_sign_up"
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:text="@string/registrarse"
@@ -54,7 +54,7 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <EditText
-            android:id="@+id/txt_email_login_cliente"
+            android:id="@+id/txt_email_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
@@ -71,7 +71,7 @@
             tools:layout_editor_absoluteY="70dp" />
 
         <EditText
-            android:id="@+id/txt_password_login_cliente"
+            android:id="@+id/txt_password_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"

@@ -16,6 +16,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".actividades.vendedor.VendedorActivity" />
+        <activity android:name=".actividades.delivery.DeliveryActivity" />
+        <activity android:name=".actividades.comprador.CompradorActivity"></activity>
     </application>
 
 </manifest>
