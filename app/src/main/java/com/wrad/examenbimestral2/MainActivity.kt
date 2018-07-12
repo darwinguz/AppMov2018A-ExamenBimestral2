@@ -7,10 +7,14 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 import com.wrad.examenbimestral2.actividades.comprador.CompradorActivity
 import com.wrad.examenbimestral2.actividades.delivery.DeliveryActivity
 import com.wrad.examenbimestral2.actividades.vendedor.VendedorActivity
-import com.wrad.examenbimestral2.utilitarios.Constantes
+import com.wrad.examenbimestral2.modelos.DetalleOrdenParcelable
+import com.wrad.examenbimestral2.modelos.UsuarioParcelable
+import com.wrad.examenbimestral2.utilitarios.Constante
+import com.wrad.examenbimestral2.utilitarios.Mensaje
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -23,6 +27,10 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         mAuth = FirebaseAuth.getInstance()
+
+        //TODO solo para test, borrar
+        txt_email_login.setText("vendedor10@email.com")
+        txt_password_login.setText("123456")
 
         btn_log_in.setOnClickListener {
             autenticarUsuario(txt_email_login.text.toString(), txt_password_login.text.toString())
@@ -38,7 +46,7 @@ class MainActivity : AppCompatActivity() {
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
                         Log.d(tag, "signInWithEmail:success")
-                        val user = mAuth.currentUser
+//                        val user = mAuth.currentUser
                     } else {
                         Log.w(tag, "signInWithEmail:failure", task.exception)
                         Toast.makeText(this, "Authentication failed.",
@@ -52,37 +60,45 @@ class MainActivity : AppCompatActivity() {
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
                         Log.d(tag, "createUserWithEmail:success")
-                        Toast.makeText(this, "Usuario creado con éxito, bienvenido.", Toast.LENGTH_SHORT).show()
-                        val user = mAuth.currentUser
-                        seleccionarRolUsuario()
+                        val options = arrayOf(Constante.ROL_COMPRADOR, Constante.ROL_VENDEDOR, Constante.ROL_DELIVERY)
+                        val builder = AlertDialog.Builder(this)
+                                .setTitle("Seleccione un rol")
+                                .setItems(options) { _, which ->
+                                    when (which) {
+                                        0 -> {
+                                            insertarUsuarioFirebase(UsuarioParcelable(email, password, Constante.ROL_COMPRADOR))
+                                            goToActivity(CompradorActivity::class.java)
+                                        }
+                                        1 -> {
+                                            insertarUsuarioFirebase(UsuarioParcelable(email, password, Constante.ROL_VENDEDOR))
+                                            goToActivity(VendedorActivity::class.java)
+                                        }
+                                        2 -> {
+                                            insertarUsuarioFirebase(UsuarioParcelable(email, password, Constante.ROL_DELIVERY))
+                                            goToActivity(DeliveryActivity::class.java)
+                                        }
+                                        else -> { // Note the block
+                                            Mensaje.emitirError(this, "Error, comuníquese con el administrador")
+                                        }
+                                    }
+                                }.show()
+                        builder.show()
+                        Mensaje.emitirInformacion(this, "Usuario creado con éxito, bienvenido.")
                     } else {
                         Log.w(tag, "createUserWithEmail:failure", task.exception)
-                        Toast.makeText(this, "Error al crear usuario.", Toast.LENGTH_SHORT).show()
+                        Mensaje.emitirError(this, "Error al crear usuario.")
                     }
                 }
     }
 
-    private fun seleccionarRolUsuario() {
-        val options = arrayOf(Constantes.ROL_COMPRADOR, Constantes.ROL_VENDEDOR, Constantes.ROL_DELIVERY)
-        val builder = AlertDialog.Builder(this)
-                .setTitle("Seleccione un rol")
-                .setItems(options) { dialog, which ->
-                    when (which) {
-                        0 -> {
-                            goToActivity(CompradorActivity::class.java)
-                        }
-                        1 -> {
-                            goToActivity(VendedorActivity::class.java)
-                        }
-                        2 -> {
-                            goToActivity(DeliveryActivity::class.java)
-                        }
-                        else -> { // Note the block
-                            Toast.makeText(this, "Error, comuníquese con el administrador", Toast.LENGTH_LONG).show()
-                        }
-                    }
-                }
-        builder.show()
+    private fun insertarUsuarioFirebase(nuevoUsuario: UsuarioParcelable) {
+        val userId = mAuth.currentUser!!.uid
+        Log.i(tag, userId)
+        Log.i(tag, nuevoUsuario.toString())
+        FirebaseDatabase
+                .getInstance()
+                .reference.child(Constante.USUARIO_FIREBASE)
+                .child(userId).setValue(nuevoUsuario)
     }
 
     private fun <T> goToActivity(genericActivityClass: Class<T>) {
@@ -90,12 +106,13 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    override fun onStart() {
-        super.onStart()
-        // Check if user is signed in (non-null) and update UI accordingly.
-        val currentUser = mAuth.currentUser
-        //TODO go to user rol
-        //updateUI(currentUser)
-    }
+//    override fun onStart() {
+//        super.onStart()
+//        // Check if user is signed in (non-null) and update UI accordingly.
+//        val currentUser = mAuth.currentUser
+//        //TODO go to user rol
+//        //updateUI(currentUser)
+//        Log.i(tag, "OnStart...............................")
+//    }
 
 }
