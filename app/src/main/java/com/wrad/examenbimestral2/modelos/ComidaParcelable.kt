@@ -9,7 +9,8 @@ class ComidaParcelable(val id: String?,
                        val nacionalidad: String,
                        val numeroPersonas: Int,
                        val picante: Boolean,
-                       val ingredientes: List<IngredienteParcelable>?
+                       val ingredientes: List<IngredienteParcelable>?,
+                       val usuario: UsuarioParcelable
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
             parcel.readString(),
@@ -18,7 +19,8 @@ class ComidaParcelable(val id: String?,
             parcel.readString(),
             parcel.readInt(),
             parcel.readByte() != 0.toByte(),
-            parcel.createTypedArrayList(IngredienteParcelable)) {
+            parcel.createTypedArrayList(IngredienteParcelable),
+            parcel.readParcelable(UsuarioParcelable::class.java.classLoader)) {
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -29,6 +31,7 @@ class ComidaParcelable(val id: String?,
         parcel.writeInt(numeroPersonas)
         parcel.writeByte(if (picante) 1 else 0)
         parcel.writeTypedList(ingredientes)
+        parcel.writeParcelable(usuario, flags)
     }
 
     override fun describeContents(): Int {

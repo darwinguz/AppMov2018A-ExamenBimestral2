@@ -6,4 +6,6 @@ object Constante {
     const val ROL_DELIVERY = "Delivery"
 
     const val USUARIO_FIREBASE = "usuario"
+    const val COMIDA_FIREBASE = "comida"
+
 }

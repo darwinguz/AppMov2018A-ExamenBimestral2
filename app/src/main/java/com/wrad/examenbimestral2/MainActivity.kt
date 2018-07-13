@@ -35,27 +35,7 @@ class MainActivity : AppCompatActivity() {
         if (usuario != null) {
             usuario.uid
             Log.i(tag, usuario.uid)
-            val databaseReferenceByModel = FirebaseDatabase.getInstance().getReference(Constante.USUARIO_FIREBASE).child(usuario.uid)
-            databaseReferenceByModel.addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onCancelled(databaseError: DatabaseError) {
-                    Log.i(tag, databaseError.message)
-                }
-
-                override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    if (dataSnapshot.exists()) {
-                        val user = dataSnapshot.getValue(UsuarioParcelable::class.java)
-                        Log.i(tag, "Usuario logueado: " + user.toString())
-                        when (user!!.tipo) {
-                            Constante.ROL_DELIVERY -> goToActivity(DeliveryActivity::class.java)
-                            Constante.ROL_VENDEDOR -> goToActivity(VendedorActivity::class.java)
-                            Constante.ROL_COMPRADOR -> goToActivity(CompradorActivity::class.java)
-                            else -> Mensaje.emitirError(this@MainActivity, "Error al autologuear el usuario")
-                        }
-                        finish()
-                    }
-                }
-            })
-
+            goToActivityByUserRol(usuario.uid)
         }
 
         //TODO solo para test, borrar
@@ -71,14 +51,42 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun goToActivityByUserRol(uid: String) {
+        val databaseReferenceByModel = FirebaseDatabase.getInstance().getReference(Constante.USUARIO_FIREBASE).child(uid)
+        databaseReferenceByModel.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onCancelled(databaseError: DatabaseError) {
+                Log.i(tag, databaseError.message)
+            }
+
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    val user = dataSnapshot.getValue(UsuarioParcelable::class.java)
+                    Log.i(tag, "Usuario logueado: " + user.toString())
+                    val rol = user!!.tipo
+                    when (rol) {
+                        Constante.ROL_DELIVERY -> goToActivity(DeliveryActivity::class.java)
+                        Constante.ROL_VENDEDOR -> goToActivity(VendedorActivity::class.java)
+                        Constante.ROL_COMPRADOR -> goToActivity(CompradorActivity::class.java)
+                        else -> {
+                            Mensaje.emitirError(this@MainActivity, "Error al autologuear el usuario")
+                            throw Exception("Error al autologuear el usuario")
+                        }
+                    }
+                    Mensaje.emitirInformacion(this@MainActivity, "Bienvenido $rol!")
+                    finish()
+                }
+            }
+        })
+    }
+
     private fun autenticarUsuario(email: String, password: String) {
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
-                        Log.d(tag, "signInWithEmail:success")
-//                        val user = mAuth.currentUser
+                        Log.i(tag, "signInWithEmail:success")
+                        goToActivityByUserRol(mAuth.currentUser!!.uid)
                     } else {
-                        Log.w(tag, "signInWithEmail:failure", task.exception)
+                        Log.i(tag, "signInWithEmail:failure", task.exception)
                         Toast.makeText(this, "Authentication failed.",
                                 Toast.LENGTH_SHORT).show()
                     }
@@ -133,5 +141,5 @@ class MainActivity : AppCompatActivity() {
         val intent = Intent(this, genericActivityClass)
         startActivity(intent)
     }
-    
+
 }

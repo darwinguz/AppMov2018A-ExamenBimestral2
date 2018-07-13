@@ -34,6 +34,14 @@ class UsuarioParcelable(
             null,
             null)
 
+    constructor(id: String) : this(
+            id,
+            null,
+            null,
+            null,
+            null,
+            null)
+
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(id)
         parcel.writeString(username)

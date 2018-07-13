@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/fon_background_gen"
+    tools:context=".actividades.vendedor.CrearComidaActivity">
+
+    <TextView
+        android:id="@+id/lbl_crear_comida"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="76dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="10dp"
+        android:text="Crear Comida"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.707"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.013" />
+
+    <TextView
+        android:id="@+id/lbl_nombre_comida"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="92dp"
+        android:layout_marginTop="60dp"
+        android:text="Nombre"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/lbl_crear_comida"
+        app:layout_constraintTop_toBottomOf="@+id/lbl_crear_comida" />
+
+    <TextView
+        android:id="@+id/lbl_descripcion_comida"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="45dp"
+        android:text="Descripcion"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/lbl_nombre_comida"
+        app:layout_constraintHorizontal_bias="0.741"
+        app:layout_constraintStart_toStartOf="@+id/lbl_nombre_comida"
+        app:layout_constraintTop_toBottomOf="@+id/lbl_nombre_comida" />
+
+    <TextView
+        android:id="@+id/lbl_nacionalidad_comida"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="45dp"
+        android:text="Nacionalidad"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/lbl_descripcion_comida"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/lbl_descripcion_comida"
+        app:layout_constraintTop_toBottomOf="@+id/lbl_descripcion_comida" />
+
+    <TextView
+        android:id="@+id/lbl_numero_personas_comida"
+        android:layout_width="118dp"
+        android:layout_height="38dp"
+        android:layout_marginTop="45dp"
+        android:gravity="right|center_vertical"
+        android:text="Numero de Personas"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/lbl_nacionalidad_comida"
+        app:layout_constraintTop_toBottomOf="@+id/lbl_nacionalidad_comida" />
+
+    <TextView
+        android:id="@+id/lbl_picante_comida"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="104dp"
+        android:layout_marginTop="45dp"
+        android:text="Picante"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/lbl_numero_personas_comida"
+        app:layout_constraintHorizontal_bias="0.84"
+        app:layout_constraintStart_toStartOf="@+id/lbl_numero_personas_comida"
+        app:layout_constraintTop_toBottomOf="@+id/lbl_numero_personas_comida" />
+
+    <Button
+        android:id="@+id/btn_guardar_comida"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
+        android:text="Guardar"
+        app:layout_constraintEnd_toEndOf="@+id/chk_picante_comida"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/chk_picante_comida"
+        app:layout_constraintTop_toBottomOf="@+id/chk_picante_comida" />
+
+    <Button
+        android:id="@+id/btn_cancelar_comida"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
+        android:text="Cancelar"
+        app:layout_constraintEnd_toEndOf="@+id/lbl_picante_comida"
+        app:layout_constraintHorizontal_bias="0.617"
+        app:layout_constraintStart_toStartOf="@+id/lbl_picante_comida"
+        app:layout_constraintTop_toBottomOf="@+id/lbl_picante_comida" />
+
+    <EditText
+        android:id="@+id/txt_nombre_comida"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginStart="20dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/lbl_nombre_comida"
+        app:layout_constraintStart_toEndOf="@+id/lbl_nombre_comida"
+        app:layout_constraintTop_toTopOf="@+id/lbl_nombre_comida" />
+
+
+    <CheckBox
+        android:id="@+id/chk_picante_comida"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:text="Si"
+        app:layout_constraintBottom_toBottomOf="@+id/lbl_picante_comida"
+        app:layout_constraintStart_toEndOf="@+id/lbl_picante_comida"
+        app:layout_constraintTop_toTopOf="@+id/lbl_picante_comida"
+        app:layout_constraintVertical_bias="1.0" />
+
+
+    <EditText
+        android:id="@+id/txt_nacionalidad_comida"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/lbl_nacionalidad_comida"
+        app:layout_constraintStart_toEndOf="@+id/lbl_nacionalidad_comida"
+        app:layout_constraintTop_toTopOf="@+id/lbl_nacionalidad_comida"
+        app:layout_constraintVertical_bias="0.652" />
+
+    <EditText
+        android:id="@+id/txt_numero_personas_comida"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/lbl_numero_personas_comida"
+        app:layout_constraintStart_toEndOf="@+id/lbl_numero_personas_comida"
+        app:layout_constraintTop_toTopOf="@+id/lbl_numero_personas_comida"
+        app:layout_constraintVertical_bias="0.652" />
+
+    <EditText
+        android:id="@+id/txt_descripcion_comida"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/lbl_descripcion_comida"
+        app:layout_constraintStart_toEndOf="@+id/lbl_descripcion_comida"
+        app:layout_constraintTop_toTopOf="@+id/lbl_descripcion_comida"
+        app:layout_constraintVertical_bias="0.695" />
+
+
+</android.support.constraint.ConstraintLayout>

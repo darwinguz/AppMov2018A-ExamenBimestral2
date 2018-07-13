@@ -4,18 +4,70 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/fon_background_gen"
     tools:context=".actividades.vendedor.VendedorActivity">
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:layout_marginTop="40dp"
         android:fontFamily="@font/green_avocado_regular"
         android:text="Vendedor"
         android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.037" />
+
+    <Button
+        android:id="@+id/btn_crear_comida_vendedor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="76dp"
+        android:text="Crear"
+        app:layout_constraintEnd_toEndOf="@+id/textView"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/textView"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <Button
+        android:id="@+id/btn_editar_comida_vendedor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="30dp"
+        android:text="Editar"
+        app:layout_constraintEnd_toEndOf="@+id/btn_crear_comida_vendedor"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/btn_crear_comida_vendedor"
+        app:layout_constraintTop_toBottomOf="@+id/btn_crear_comida_vendedor" />
+
+    <Button
+        android:id="@+id/btn_borrar_comida_vendedor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="30dp"
+        android:text="Borrar"
+        app:layout_constraintEnd_toEndOf="@+id/btn_editar_comida_vendedor"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/btn_editar_comida_vendedor"
+        app:layout_constraintTop_toBottomOf="@+id/btn_editar_comida_vendedor" />
+
+    <Button
+        android:id="@+id/btn_fotos_comida_vendedor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="30dp"
+        android:text="Fotos"
+        app:layout_constraintEnd_toEndOf="@+id/btn_borrar_comida_vendedor"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/btn_borrar_comida_vendedor"
+        app:layout_constraintTop_toBottomOf="@+id/btn_borrar_comida_vendedor" />
 </android.support.constraint.ConstraintLayout>

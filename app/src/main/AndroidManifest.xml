@@ -18,7 +18,8 @@
         </activity>
         <activity android:name=".actividades.vendedor.VendedorActivity" />
         <activity android:name=".actividades.delivery.DeliveryActivity" />
-        <activity android:name=".actividades.comprador.CompradorActivity"></activity>
+        <activity android:name=".actividades.comprador.CompradorActivity" />
+        <activity android:name=".actividades.vendedor.CrearComidaActivity"></activity>
     </application>
 
 </manifest>
