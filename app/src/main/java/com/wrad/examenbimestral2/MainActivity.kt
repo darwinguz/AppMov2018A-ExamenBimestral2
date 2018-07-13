@@ -7,11 +7,13 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.wrad.examenbimestral2.actividades.comprador.CompradorActivity
 import com.wrad.examenbimestral2.actividades.delivery.DeliveryActivity
 import com.wrad.examenbimestral2.actividades.vendedor.VendedorActivity
-import com.wrad.examenbimestral2.modelos.DetalleOrdenParcelable
 import com.wrad.examenbimestral2.modelos.UsuarioParcelable
 import com.wrad.examenbimestral2.utilitarios.Constante
 import com.wrad.examenbimestral2.utilitarios.Mensaje
@@ -27,6 +29,34 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         mAuth = FirebaseAuth.getInstance()
+
+        //auto logged
+        val usuario = mAuth.currentUser
+        if (usuario != null) {
+            usuario.uid
+            Log.i(tag, usuario.uid)
+            val databaseReferenceByModel = FirebaseDatabase.getInstance().getReference(Constante.USUARIO_FIREBASE).child(usuario.uid)
+            databaseReferenceByModel.addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onCancelled(databaseError: DatabaseError) {
+                    Log.i(tag, databaseError.message)
+                }
+
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    if (dataSnapshot.exists()) {
+                        val user = dataSnapshot.getValue(UsuarioParcelable::class.java)
+                        Log.i(tag, "Usuario logueado: " + user.toString())
+                        when (user!!.tipo) {
+                            Constante.ROL_DELIVERY -> goToActivity(DeliveryActivity::class.java)
+                            Constante.ROL_VENDEDOR -> goToActivity(VendedorActivity::class.java)
+                            Constante.ROL_COMPRADOR -> goToActivity(CompradorActivity::class.java)
+                            else -> Mensaje.emitirError(this@MainActivity, "Error al autologuear el usuario")
+                        }
+                        finish()
+                    }
+                }
+            })
+
+        }
 
         //TODO solo para test, borrar
         txt_email_login.setText("vendedor10@email.com")
@@ -93,8 +123,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun insertarUsuarioFirebase(nuevoUsuario: UsuarioParcelable) {
         val userId = mAuth.currentUser!!.uid
-        Log.i(tag, userId)
-        Log.i(tag, nuevoUsuario.toString())
         FirebaseDatabase
                 .getInstance()
                 .reference.child(Constante.USUARIO_FIREBASE)

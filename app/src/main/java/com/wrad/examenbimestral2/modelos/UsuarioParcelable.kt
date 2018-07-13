@@ -5,9 +5,9 @@ import android.os.Parcelable
 
 class UsuarioParcelable(
         var id: String?,
-        var username: String,
-        var password: String,
-        var tipo: String,
+        var username: String?,
+        var password: String?,
+        var tipo: String?,
         var comidas: List<ComidaParcelable>?,
         var ordenes: List<OrdenParcelable>?) : Parcelable {
     constructor(parcel: Parcel) : this(
@@ -23,6 +23,14 @@ class UsuarioParcelable(
             username,
             password,
             tipo,
+            null,
+            null)
+
+    constructor() : this(
+            null,
+            null,
+            null,
+            null,
             null,
             null)
 
