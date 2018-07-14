@@ -3,4 +3,8 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+    <color name="colorLabelOrange">#f9814e</color>
+    <color name="colorLabelOrangeLight">#ffbfa3</color>
+    <color name="colorButtonBlack">#5b5857</color>
 </resources>

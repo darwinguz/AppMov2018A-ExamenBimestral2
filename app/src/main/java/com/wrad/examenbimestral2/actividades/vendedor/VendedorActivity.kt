@@ -16,6 +16,10 @@ class VendedorActivity : AppCompatActivity() {
             goToActivity(CrearComidaActivity::class.java)
         }
 
+        btn_editar_comida_vendedor.setOnClickListener {
+            goToActivity(ListarComidasActivity::class.java)
+        }
+
     }
 
     private fun <T> goToActivity(genericActivityClass: Class<T>) {
