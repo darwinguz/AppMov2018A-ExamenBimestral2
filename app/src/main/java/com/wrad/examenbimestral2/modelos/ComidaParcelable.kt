@@ -3,14 +3,14 @@ package com.wrad.examenbimestral2.modelos
 import android.os.Parcel
 import android.os.Parcelable
 
-class ComidaParcelable(val id: String?,
-                       val nombrePlato: String?,
-                       val descripcionPlato: String?,
-                       val nacionalidad: String?,
-                       val numeroPersonas: Int?,
-                       val picante: Boolean?,
-                       val ingredientes: List<IngredienteParcelable>?,
-                       val usuario: UsuarioParcelable?
+class ComidaParcelable(var id: String?,
+                       var nombrePlato: String?,
+                       var descripcionPlato: String?,
+                       var nacionalidad: String?,
+                       var numeroPersonas: Int?,
+                       var picante: Boolean?,
+                       var ingredientes: List<IngredienteParcelable>?,
+                       var usuario: UsuarioParcelable?
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
             parcel.readString(),
@@ -33,14 +33,17 @@ class ComidaParcelable(val id: String?,
             null
     )
 
-
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(id)
         parcel.writeString(nombrePlato)
         parcel.writeString(descripcionPlato)
         parcel.writeString(nacionalidad)
-        parcel.writeInt(numeroPersonas!!)
-        parcel.writeByte(if (picante!!) 1 else 0)
+        if (numeroPersonas != null) {
+            parcel.writeInt(numeroPersonas!!)
+        }
+        parcel.writeByte(if (picante == null) 0 else {
+            (if (picante as Boolean) 1 else 0).toByte()
+        })
         parcel.writeTypedList(ingredientes)
         parcel.writeParcelable(usuario, flags)
     }
@@ -59,5 +62,7 @@ class ComidaParcelable(val id: String?,
         }
     }
 
-
+    override fun toString(): String {
+        return "id: $id, nombrePlato: $nombrePlato, descripcionPlato: $descripcionPlato, nacionalidad: $nacionalidad, numeroPersonas: $numeroPersonas, picante: $picante, ingredientes: $ingredientes, usuario: $usuario"
+    }
 }

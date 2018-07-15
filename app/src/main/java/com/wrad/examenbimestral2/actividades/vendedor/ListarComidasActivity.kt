@@ -10,7 +10,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.wrad.examenbimestral2.R
-import com.wrad.examenbimestral2.actividades.adapters.ComidaAdapter
+import com.wrad.examenbimestral2.adapters.ComidaAdapter
 import com.wrad.examenbimestral2.modelos.ComidaParcelable
 import com.wrad.examenbimestral2.utilitarios.Constante
 import java.util.*
@@ -20,7 +20,7 @@ class ListarComidasActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: RecyclerView.LayoutManager
-    private val tag = ListarComidasActivity::class.java.name
+    private val TAG = ListarComidasActivity::class.java.name
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,7 +34,7 @@ class ListarComidasActivity : AppCompatActivity() {
         val databaseReferenceByModel = FirebaseDatabase.getInstance().getReference(Constante.COMIDA_FIREBASE)
         databaseReferenceByModel.addValueEventListener(object : ValueEventListener {
             override fun onCancelled(databaseError: DatabaseError) {
-                Log.i(tag, databaseError.message)
+                Log.i(TAG, databaseError.message)
             }
 
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -45,14 +45,13 @@ class ListarComidasActivity : AppCompatActivity() {
                     for (it in dataSnapshot.children) {
                         val comida = it.getValue(ComidaParcelable::class.java)
                         datos.add(comida!!)
-                        Log.i(tag, comida.toString())
+                        Log.i(TAG, comida.toString())
+                        Log.i(TAG, it.toString())
                     }
 
                     //TODO enviar datos al recycler view
                     //recycler view
                     viewManager = LinearLayoutManager(this@ListarComidasActivity)
-//        val dbHandler = SerComida(this)
-//        viewAdapter = AdaComida(dbHandler.selectAll())
                     viewAdapter = ComidaAdapter(datos)
 
                     recyclerView = findViewById<RecyclerView>(R.id.recycler_view_comida).apply {

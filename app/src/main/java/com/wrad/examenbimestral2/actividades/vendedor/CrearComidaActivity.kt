@@ -11,7 +11,7 @@ import com.wrad.examenbimestral2.MainActivity
 import com.wrad.examenbimestral2.R
 import com.wrad.examenbimestral2.modelos.ComidaParcelable
 import com.wrad.examenbimestral2.modelos.UsuarioParcelable
-import com.wrad.examenbimestral2.servicios.ServicioFirebase
+import com.wrad.examenbimestral2.servicios.FirebaseService
 import com.wrad.examenbimestral2.utilitarios.Constante
 import kotlinx.android.synthetic.main.activity_crear_comida.*
 
@@ -55,7 +55,7 @@ class CrearComidaActivity : AppCompatActivity() {
                     chk_picante_comida.isChecked,
                     null,
                     UsuarioParcelable(FirebaseAuth.getInstance().currentUser!!.uid))
-            ServicioFirebase.insert(comida, Constante.COMIDA_FIREBASE)
+            FirebaseService.insert(comida, Constante.COMIDA_FIREBASE)
         } else {
 //            servicioComida.update(ModComida(comidaEdit!!.id, txt_nombre_comida.text.toString(), txt_descripcion_comida.text.toString(), txt_nacionalidad_comida.text.toString(), txt_numero_personas_comida.text.toString().toInt(), chk_picante_comida.isChecked, null))
         }

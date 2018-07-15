@@ -22,7 +22,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
     private lateinit var mAuth: FirebaseAuth
-    private val tag = MainActivity::class.java.name
+    private val TAG = MainActivity::class.java.name
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
         val usuario = mAuth.currentUser
         if (usuario != null) {
             usuario.uid
-            Log.i(tag, usuario.uid)
+            Log.i(TAG, usuario.uid)
             goToActivityByUserRol(usuario.uid)
         }
 
@@ -55,13 +55,13 @@ class MainActivity : AppCompatActivity() {
         val databaseReferenceByModel = FirebaseDatabase.getInstance().getReference(Constante.USUARIO_FIREBASE).child(uid)
         databaseReferenceByModel.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onCancelled(databaseError: DatabaseError) {
-                Log.i(tag, databaseError.message)
+                Log.i(TAG, databaseError.message)
             }
 
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 if (dataSnapshot.exists()) {
                     val user = dataSnapshot.getValue(UsuarioParcelable::class.java)
-                    Log.i(tag, "Usuario logueado: " + user.toString())
+                    Log.i(TAG, "Usuario logueado: " + user.toString())
                     val rol = user!!.tipo
                     when (rol) {
                         Constante.ROL_DELIVERY -> goToActivity(DeliveryActivity::class.java)
@@ -83,10 +83,10 @@ class MainActivity : AppCompatActivity() {
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
-                        Log.i(tag, "signInWithEmail:success")
+                        Log.i(TAG, "signInWithEmail:success")
                         goToActivityByUserRol(mAuth.currentUser!!.uid)
                     } else {
-                        Log.i(tag, "signInWithEmail:failure", task.exception)
+                        Log.i(TAG, "signInWithEmail:failure", task.exception)
                         Toast.makeText(this, "Authentication failed.",
                                 Toast.LENGTH_SHORT).show()
                     }
@@ -97,7 +97,7 @@ class MainActivity : AppCompatActivity() {
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
-                        Log.d(tag, "createUserWithEmail:success")
+                        Log.d(TAG, "createUserWithEmail:success")
                         val options = arrayOf(Constante.ROL_COMPRADOR, Constante.ROL_VENDEDOR, Constante.ROL_DELIVERY)
                         val builder = AlertDialog.Builder(this)
                                 .setTitle("Seleccione un rol")
@@ -123,18 +123,20 @@ class MainActivity : AppCompatActivity() {
                         builder.show()
                         Mensaje.emitirInformacion(this, "Usuario creado con éxito, bienvenido.")
                     } else {
-                        Log.w(tag, "createUserWithEmail:failure", task.exception)
+                        Log.w(TAG, "createUserWithEmail:failure", task.exception)
                         Mensaje.emitirError(this, "Error al crear usuario.")
                     }
                 }
     }
 
     private fun insertarUsuarioFirebase(nuevoUsuario: UsuarioParcelable) {
+        //inserta con una clave conocida
         val userId = mAuth.currentUser!!.uid
-        FirebaseDatabase
+        val refDB = FirebaseDatabase
                 .getInstance()
-                .reference.child(Constante.USUARIO_FIREBASE)
-                .child(userId).setValue(nuevoUsuario)
+                .reference.child(Constante.USUARIO_FIREBASE).child(userId)
+        refDB.setValue(nuevoUsuario)
+        refDB.child("id").setValue(userId)
     }
 
     private fun <T> goToActivity(genericActivityClass: Class<T>) {

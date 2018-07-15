@@ -1,4 +1,4 @@
-package com.wrad.examenbimestral2.actividades.adapters
+package com.wrad.examenbimestral2.adapters
 
 import android.content.Context
 import android.content.Intent

@@ -1,4 +1,4 @@
-package com.wrad.examenbimestral2.actividades.adapters
+package com.wrad.examenbimestral2.adapters
 
 import android.content.Context
 import android.content.Intent
@@ -10,11 +10,18 @@ import android.view.ContextMenu
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.wrad.examenbimestral2.R
 import com.wrad.examenbimestral2.actividades.vendedor.CrearComidaActivity
 import com.wrad.examenbimestral2.actividades.vendedor.ListarComidasActivity
 import com.wrad.examenbimestral2.actividades.vendedor.ListarIngredientesActivity
 import com.wrad.examenbimestral2.modelos.ComidaParcelable
+import com.wrad.examenbimestral2.servicios.FirebaseService
+import com.wrad.examenbimestral2.utilitarios.Constante
+import com.wrad.examenbimestral2.utilitarios.Mensaje
 import kotlinx.android.synthetic.main.lista_fila_comida.view.*
 import java.util.*
 
@@ -38,12 +45,7 @@ class ComidaAdapter(private val comidas: ArrayList<ComidaParcelable>) :
 
             //FIXME ARREGLAR EL LLAMADO DEL OBJETO SELECCIONADO EN EL CONTEXT VIEW Y EL REFRESH
             editar.setOnMenuItemClickListener {
-                //TODO implementar servicio
-//                val serComida = SerComida(view.context)
-//                val comidaEditar = serComida.selectByName(view.lbl_nombre_lista_comida.text.toString())
-//                if (comidaEditar != null) {
-//                    irCrearComida(view.context, comidaEditar)
-//                }
+                selectBy("nombrePlato", view.lbl_nombre_lista_comida.text.toString(), Constante.COMIDA_FIREBASE)
                 true
             }
 
@@ -51,16 +53,11 @@ class ComidaAdapter(private val comidas: ArrayList<ComidaParcelable>) :
             eliminar.setOnMenuItemClickListener {
                 val builder = AlertDialog.Builder(view.context)
                 builder.setMessage("Desdea eliminar este item?")
-                        .setPositiveButton("Confirmar", { _, _ ->
-                            //TODO implementar servicio
-//                            val serComida = SerComida(view.context)
-//                            val comidaEliminar = serComida.selectByName(view.lbl_nombre_lista_comida.text.toString())
-//                            if (comidaEliminar != null) {
-//                                serComida.delete(comidaEliminar.id!!)
-                                //TODO refrescamiento view.recycler_view_comida.adapter.notifyDataSetChanged() https://stackoverflow.com/questions/31367599/how-to-update-recyclerview-adapter-data
-//                            }
+                        .setPositiveButton("Confirmar") { _, _ ->
+                            FirebaseService.delete("nombrePlato", view.lbl_nombre_lista_comida.text.toString(), Constante.COMIDA_FIREBASE)
+                            //TODO refrescamiento view.recycler_view_comida.adapter.notifyDataSetChanged() https://stackoverflow.com/questions/31367599/how-to-update-recyclerview-adapter-data
                             irListarComida()
-                        })
+                        }
                         .setNegativeButton("Cancelar", null)
                 val dialogo = builder.create()
                 dialogo.show()
@@ -68,14 +65,40 @@ class ComidaAdapter(private val comidas: ArrayList<ComidaParcelable>) :
             }
 
             compartirCorreo.setOnMenuItemClickListener {
-                //TODO implementar servicio
-//                val serComida = SerComida(view.context)
-//                val comidaEnviar = serComida.selectByName(view.lbl_nombre_lista_comida.text.toString())
-//                if (comidaEnviar != null) {
-//                    enviarCorreo(comidaEnviar)
-//                }
+                //TODO implementar
+//                FirebaseService.selectBy("nombrePlato", view.lbl_nombre_lista_comida.text.toString(), Constante.COMIDA_FIREBASE, ComidaParcelable::class.java, ::enviarCorreo)
                 true
             }
+        }
+
+        fun editarComida(comida: ComidaParcelable?) {
+            if (comida != null) {
+                Log.i("firebase", comida.nombrePlato)
+                irCrearComida(view.context, comida)
+            } else {
+                Mensaje.emitirError(view.context, "Error al recuperar comida item.")
+            }
+        }
+
+        fun selectBy(atributteLabel: String, attributeValue: String, table: String) {
+            val databaseReferenceByModel = FirebaseDatabase.getInstance().getReference(table)
+            val queryRef = databaseReferenceByModel.orderByChild(atributteLabel).equalTo(attributeValue)
+            databaseReferenceByModel.addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onCancelled(databaseError: DatabaseError) {
+                    Log.i("firebase", databaseError.message)
+                }
+
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    if (dataSnapshot.exists()) {
+                        var comida: ComidaParcelable? = null
+                        for (it in dataSnapshot.children) {
+                            comida = it.getValue(ComidaParcelable::class.java)!!
+//                            comida.id = it.key
+                        }
+                        editarComida(comida)
+                    }
+                }
+            })
         }
 
         private fun enviarCorreo(comida: ComidaParcelable) {
@@ -121,9 +144,9 @@ class ComidaAdapter(private val comidas: ArrayList<ComidaParcelable>) :
         holder.view.lbl_nombre_lista_comida.text = comidas[position].nombrePlato
         holder.view.lbl_descripcion_lista_comida.text = comidas[position].descripcionPlato
         holder.view.lbl_nacionalidad_lista_comida.text = comidas[position].nacionalidad
-        holder.view.btn_ingredientes_lista_comida.setOnClickListener({ v ->
+        holder.view.btn_ingredientes_lista_comida.setOnClickListener { v ->
             irAActividadIngredientesComida(v.context, comidas[position])
-        })
+        }
 
     }
 
@@ -139,3 +162,4 @@ class ComidaAdapter(private val comidas: ArrayList<ComidaParcelable>) :
     // Return the size of your dataset (invoked by the layout manager)
     override fun getItemCount() = comidas.size
 }
+
