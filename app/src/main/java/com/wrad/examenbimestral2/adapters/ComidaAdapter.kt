@@ -42,7 +42,7 @@ class ComidaAdapter(private val comidas: ArrayList<ComidaModel>) :
             //FIXME ARREGLAR EL LLAMADO DEL OBJETO SELECCIONADO EN EL CONTEXT VIEW Y EL REFRESH
             editar.setOnMenuItemClickListener {
                 //busca y manda a ediar la comida encontrada
-                DatabaseService.selectSingleBy("nombrePlato", view.lbl_nombre_lista_comida.text.toString(), Constante.COMIDA_FIREBASE, ComidaModel::class.java, ::editarComida)
+                DatabaseService.selectSingleWhere("nombrePlato", view.lbl_nombre_lista_comida.text.toString(), Constante.COMIDA_FIREBASE, ComidaModel::class.java, ::editarComida)
                 true
             }
 
@@ -62,7 +62,7 @@ class ComidaAdapter(private val comidas: ArrayList<ComidaModel>) :
             }
 
             compartirCorreo.setOnMenuItemClickListener {
-                DatabaseService.selectSingleBy("nombrePlato", view.lbl_nombre_lista_comida.text.toString(), Constante.COMIDA_FIREBASE, ComidaModel::class.java, ::enviarCorreo)
+                DatabaseService.selectSingleWhere("nombrePlato", view.lbl_nombre_lista_comida.text.toString(), Constante.COMIDA_FIREBASE, ComidaModel::class.java, ::enviarCorreo)
                 true
             }
         }

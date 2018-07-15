@@ -43,7 +43,7 @@ object DatabaseService {
     }
 
 
-    fun <T> selectSingleBy(atributteLabel: String, attributeValue: String, reference: String, genericClass: Class<T>, ejecutar: (result: T) -> Unit) {
+    fun <T> selectSingleWhere(atributteLabel: String, attributeValue: String, reference: String, genericClass: Class<T>, ejecutar: (result: T) -> Unit) {
         val databaseReferenceByModel = FirebaseDatabase.getInstance().getReference(reference)
         val queryRef = databaseReferenceByModel.orderByChild(atributteLabel).equalTo(attributeValue)
         queryRef.addListenerForSingleValueEvent(object : ValueEventListener {
@@ -64,6 +64,54 @@ object DatabaseService {
                         Log.i(TAG, "Objeto no encontrado en la base de datos.")
                         throw Exception("Objeto no encontrado en la base de datos.")
                     }
+                }
+            }
+        })
+    }
+
+    fun <T> selectSingleByKey(key: String, reference: String, genericClass: Class<T>, ejecutar: (result: T) -> Unit) {
+        val databaseReferenceByModel = FirebaseDatabase.getInstance().getReference(reference)
+        val queryRef = databaseReferenceByModel.orderByKey().equalTo(key)
+        queryRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onCancelled(databaseError: DatabaseError) {
+                Log.i(TAG, databaseError.message)
+            }
+
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    var genericObject: T? = null
+                    for (it in dataSnapshot.children) {
+                        genericObject = it.getValue(genericClass)!!
+                    }
+                    //TODO validar single result
+                    if (genericObject != null) {
+                        ejecutar(genericObject)
+                    } else {
+                        Log.i(TAG, "Objeto no encontrado en la base de datos.")
+                        throw Exception("Objeto no encontrado en la base de datos.")
+                    }
+                }
+            }
+        })
+    }
+
+    fun <T> selectAllFilterByAttribute(atributteLabel: String, attributeValue: String, reference: String, genericClass: Class<T>, ejecutar: (result: List<T>) -> Unit) {
+        val databaseReferenceByModel = FirebaseDatabase.getInstance().getReference(reference)
+        val queryRef = databaseReferenceByModel.orderByChild(atributteLabel).equalTo(attributeValue)
+        queryRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onCancelled(databaseError: DatabaseError) {
+                Log.i(TAG, databaseError.message)
+            }
+
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    var genericObject: T
+                    val objects = ArrayList<T>()
+                    for (it in dataSnapshot.children) {
+                        genericObject = it.getValue(genericClass)!!
+                        objects.add(genericObject)
+                    }
+                    ejecutar(objects)
                 }
             }
         })

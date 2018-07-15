@@ -15,6 +15,7 @@ import com.wrad.examenbimestral2.servicios.DatabaseService
 import com.wrad.examenbimestral2.utilitarios.Constante
 import kotlinx.android.synthetic.main.activity_listar_ingredientes.*
 import java.util.*
+import kotlin.collections.ArrayList
 
 class ListarIngredientesActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
@@ -37,7 +38,12 @@ class ListarIngredientesActivity : AppCompatActivity() {
             txt_numero_personas_ingrediente.text = comida?.numeroPersonas.toString()
             chk_picante_ingrediente.isChecked = comida?.picante!!
 
-            DatabaseService.selectAll(Constante.getReferenceIngredientes(comida!!.id!!), IngredienteModel::class.java, ::iniciarRecyclerView)
+            if (comida!!.ingredientes != null) {
+                val ingredientes = ArrayList<IngredienteModel>(comida!!.ingredientes!!.values)
+                iniciarRecyclerView(ingredientes)
+            } else {
+                iniciarRecyclerView(ArrayList())
+            }
         } else {
             throw Exception("No se ha enviado ninguna comida a esta actividad.")
         }

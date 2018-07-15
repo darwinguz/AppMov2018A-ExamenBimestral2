@@ -32,7 +32,7 @@ class CrearIngredienteActivity : AppCompatActivity() {
         }
 
         btn_cancelar_crear_ingrediente.setOnClickListener {
-            irIngredientes()
+            finish()
         }
 
         btn_guardar_crear_ingrediente.setOnClickListener {
@@ -56,16 +56,12 @@ class CrearIngredienteActivity : AppCompatActivity() {
                 ingrediente.comidaId = ingredienteEdit!!.comidaId
                 DatabaseService.updateAny(referenceIngrediente, ingrediente.id!!, ingrediente)
             }
-            irIngredientes()
+            DatabaseService.selectSingleByKey(comida!!.id!!, Constante.COMIDA_FIREBASE, ComidaModel::class.java, ::irIngredientes)
         }
     }
 
-    private fun irIngredientes() {
+    private fun irIngredientes(comida: ComidaModel) {
         val intent = Intent(this, ListarIngredientesActivity::class.java)
-        if (comida == null) {
-            //TODO implementar servicio
-//            comida = SerComida(this).selectById(ingredienteEdit?.comidaId!!)
-        }
         intent.putExtra("comida-intent", comida)
         startActivity(intent)
     }

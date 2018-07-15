@@ -9,8 +9,8 @@ object Constante {
     const val COMIDA_FIREBASE = "comida"
     const val INGREDIENTE_FIREBASE = "ingredientes"
 
-    fun getReferenceIngredientes(key: String): String {
-        return "$COMIDA_FIREBASE/$key/$INGREDIENTE_FIREBASE"
+    fun getReferenceIngredientes(keyComida: String): String {
+        return "$COMIDA_FIREBASE/$keyComida/$INGREDIENTE_FIREBASE"
     }
 
 }

@@ -52,12 +52,6 @@ class ListarComidasActivity : AppCompatActivity() {
                         Log.i(TAG, it.toString())
                     }
 
-                    if (datos[0].ingredientes != null) {
-                        datos[0].ingredientes!!.forEach {
-                            Log.i(TAG, it.value.nombreIngrediente)
-                        }
-                    }
-
                     //recycler view
                     viewManager = LinearLayoutManager(this@ListarComidasActivity)
                     viewAdapter = ComidaAdapter(datos)
