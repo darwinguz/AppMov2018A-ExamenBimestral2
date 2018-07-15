@@ -20,7 +20,10 @@ class ListarComidasActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: RecyclerView.LayoutManager
-    private val TAG = ListarComidasActivity::class.java.name
+
+    companion object {
+        private const val TAG = "ListarComidasActivity"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,7 +52,12 @@ class ListarComidasActivity : AppCompatActivity() {
                         Log.i(TAG, it.toString())
                     }
 
-                    //TODO enviar datos al recycler view
+                    if (datos[0].ingredientes != null) {
+                        datos[0].ingredientes!!.forEach {
+                            Log.i(TAG, it.value.nombreIngrediente)
+                        }
+                    }
+
                     //recycler view
                     viewManager = LinearLayoutManager(this@ListarComidasActivity)
                     viewAdapter = ComidaAdapter(datos)
