@@ -22,7 +22,8 @@
         <activity android:name=".actividades.vendedor.CrearComidaActivity" />
         <activity android:name=".actividades.vendedor.ListarComidasActivity" />
         <activity android:name=".actividades.vendedor.ListarIngredientesActivity" />
-        <activity android:name=".actividades.vendedor.CrearIngredienteActivity"></activity>
+        <activity android:name=".actividades.vendedor.CrearIngredienteActivity" />
+        <activity android:name=".actividades.vendedor.FotosComidaActivity"></activity>
     </application>
 
 </manifest>

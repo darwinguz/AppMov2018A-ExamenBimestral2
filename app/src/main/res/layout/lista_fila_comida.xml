@@ -26,7 +26,7 @@
         android:orientation="horizontal">
 
         <LinearLayout
-            android:layout_width="244dp"
+            android:layout_width="524dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="vertical">
@@ -54,16 +54,30 @@
                 tools:layout_editor_absoluteY="65dp" />
         </LinearLayout>
 
-        <Button
-            android:id="@+id/btn_ingredientes_lista_comida"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@color/colorButtonBlack"
-            android:text="Ingredientes"
-            android:textSize="12sp"
-            tools:layout_editor_absoluteX="248dp"
-            tools:layout_editor_absoluteY="40dp" />
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/btn_ingredientes_lista_comida"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Ingredientes"
+                android:textSize="12sp"
+                tools:layout_editor_absoluteX="248dp"
+                tools:layout_editor_absoluteY="40dp" />
+
+            <Button
+                android:id="@+id/btn_fotos_lista_comida"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Fotos" />
+        </LinearLayout>
+
     </LinearLayout>
 
 </LinearLayout>

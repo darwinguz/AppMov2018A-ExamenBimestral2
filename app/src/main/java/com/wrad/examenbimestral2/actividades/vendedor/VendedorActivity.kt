@@ -20,6 +20,10 @@ class VendedorActivity : AppCompatActivity() {
             goToActivity(ListarComidasActivity::class.java)
         }
 
+        btn_fotos_comida_vendedor.setOnClickListener {
+
+        }
+
     }
 
     private fun <T> goToActivity(genericActivityClass: Class<T>) {

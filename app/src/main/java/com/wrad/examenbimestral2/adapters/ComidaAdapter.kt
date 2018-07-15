@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.wrad.examenbimestral2.R
 import com.wrad.examenbimestral2.actividades.vendedor.CrearComidaActivity
+import com.wrad.examenbimestral2.actividades.vendedor.FotosComidaActivity
 import com.wrad.examenbimestral2.actividades.vendedor.ListarComidasActivity
 import com.wrad.examenbimestral2.actividades.vendedor.ListarIngredientesActivity
 import com.wrad.examenbimestral2.modelos.ComidaModel
@@ -122,11 +123,22 @@ class ComidaAdapter(private val comidas: ArrayList<ComidaModel>) :
         holder.view.btn_ingredientes_lista_comida.setOnClickListener { v ->
             irAActividadIngredientesComida(v.context, comidas[position])
         }
+        holder.view.btn_fotos_lista_comida.setOnClickListener {
+            irAActividadFotos(it.context, comidas[position])
+        }
 
     }
 
     private fun irAActividadIngredientesComida(context: Context, comidaSelected: ComidaModel) {
         val intent = Intent(context, ListarIngredientesActivity::class.java)
+        intent.putExtra("comida-intent", comidaSelected)
+        Log.e("info", "COMIDA ENVIADA: $comidaSelected ")
+
+        startActivity(context, intent, null)
+    }
+
+    private fun irAActividadFotos(context: Context, comidaSelected: ComidaModel) {
+        val intent = Intent(context, FotosComidaActivity::class.java)
         intent.putExtra("comida-intent", comidaSelected)
         Log.e("info", "COMIDA ENVIADA: $comidaSelected ")
 
