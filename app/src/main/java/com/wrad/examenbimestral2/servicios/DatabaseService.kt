@@ -125,7 +125,11 @@ object DatabaseService {
         FirebaseDatabase.getInstance().getReference(referece).child(key).child(atributteLabel).setValue(attributeValue)
     }
 
-    fun delete(atributteLabel: String, attributeValue: String, reference: String) {
+    fun deleteByKey(key: String, reference: String) {
+        FirebaseDatabase.getInstance().getReference(reference).child(key).removeValue()
+    }
+
+    fun deleteByAttribute(atributteLabel: String, attributeValue: String, reference: String) {
         val databaseReferenceByModel = FirebaseDatabase.getInstance().getReference(reference)
         val queryRef = databaseReferenceByModel.orderByChild(atributteLabel).equalTo(attributeValue)
         queryRef.addChildEventListener(object : ChildEventListener {

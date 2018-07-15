@@ -11,11 +11,7 @@ import com.wrad.examenbimestral2.R
 import com.wrad.examenbimestral2.adapters.IngredienteAdapter
 import com.wrad.examenbimestral2.modelos.ComidaModel
 import com.wrad.examenbimestral2.modelos.IngredienteModel
-import com.wrad.examenbimestral2.servicios.DatabaseService
-import com.wrad.examenbimestral2.utilitarios.Constante
 import kotlinx.android.synthetic.main.activity_listar_ingredientes.*
-import java.util.*
-import kotlin.collections.ArrayList
 
 class ListarIngredientesActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
@@ -68,6 +64,7 @@ class ListarIngredientesActivity : AppCompatActivity() {
 
             // specify an viewAdapter (see also next example)
             adapter = viewAdapter
+
 
         }
     }

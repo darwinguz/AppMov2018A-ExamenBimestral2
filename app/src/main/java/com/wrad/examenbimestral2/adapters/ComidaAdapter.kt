@@ -51,7 +51,7 @@ class ComidaAdapter(private val comidas: ArrayList<ComidaModel>) :
                 val builder = AlertDialog.Builder(view.context)
                 builder.setMessage("Desdea eliminar este item?")
                         .setPositiveButton("Confirmar") { _, _ ->
-                            DatabaseService.delete("nombrePlato", view.lbl_nombre_lista_comida.text.toString(), Constante.COMIDA_FIREBASE)
+                            DatabaseService.deleteByAttribute("nombrePlato", view.lbl_nombre_lista_comida.text.toString(), Constante.COMIDA_FIREBASE)
                             //TODO refrescamiento view.recycler_view_comida.adapter.notifyDataSetChanged() https://stackoverflow.com/questions/31367599/how-to-update-recyclerview-adapter-data
                             irListarComida()
                         }

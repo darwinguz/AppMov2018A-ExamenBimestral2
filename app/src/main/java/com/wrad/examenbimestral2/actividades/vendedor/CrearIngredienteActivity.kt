@@ -46,17 +46,17 @@ class CrearIngredienteActivity : AppCompatActivity() {
                     chk_necesita_refrigeracion_crear_ingrediente.isChecked,
                     null
             )
-            val referenceIngrediente = Constante.getReferenceIngredientes(comida?.id!!)
 
             if (ingredienteEdit == null) {
                 ingrediente.comidaId = comida?.id
-                DatabaseService.insertWithAutogeratedKey(ingrediente, referenceIngrediente)
+                DatabaseService.insertWithAutogeratedKey(ingrediente, Constante.getReferenceIngredientes(comida?.id!!))
+                DatabaseService.selectSingleByKey(ingrediente.comidaId!!, Constante.COMIDA_FIREBASE, ComidaModel::class.java, ::irIngredientes)
             } else {
                 ingrediente.id = ingredienteEdit!!.id
                 ingrediente.comidaId = ingredienteEdit!!.comidaId
-                DatabaseService.updateAny(referenceIngrediente, ingrediente.id!!, ingrediente)
+                DatabaseService.updateAny(Constante.getReferenceIngredientes(ingredienteEdit!!.comidaId!!), ingrediente.id!!, ingrediente)
+                DatabaseService.selectSingleByKey(ingredienteEdit!!.comidaId!!, Constante.COMIDA_FIREBASE, ComidaModel::class.java, ::irIngredientes)
             }
-            DatabaseService.selectSingleByKey(comida!!.id!!, Constante.COMIDA_FIREBASE, ComidaModel::class.java, ::irIngredientes)
         }
     }
 
