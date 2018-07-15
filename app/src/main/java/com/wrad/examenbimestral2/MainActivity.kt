@@ -15,7 +15,7 @@ import com.wrad.examenbimestral2.actividades.comprador.CompradorActivity
 import com.wrad.examenbimestral2.actividades.delivery.DeliveryActivity
 import com.wrad.examenbimestral2.actividades.vendedor.VendedorActivity
 import com.wrad.examenbimestral2.modelos.UsuarioParcelable
-import com.wrad.examenbimestral2.servicios.FirebaseService
+import com.wrad.examenbimestral2.servicios.DatabaseService
 import com.wrad.examenbimestral2.utilitarios.Constante
 import com.wrad.examenbimestral2.utilitarios.Mensaje
 import kotlinx.android.synthetic.main.activity_main.*
@@ -131,7 +131,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun insertarUsuarioFirebase(nuevoUsuario: UsuarioParcelable) {
-        FirebaseService.insertWithSpecificKey(nuevoUsuario, Constante.USUARIO_FIREBASE, mAuth.currentUser!!.uid)
+        DatabaseService.insertWithSpecificKey(nuevoUsuario, Constante.USUARIO_FIREBASE, mAuth.currentUser!!.uid)
     }
 
     private fun <T> goToActivity(genericActivityClass: Class<T>) {

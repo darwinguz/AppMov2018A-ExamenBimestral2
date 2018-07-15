@@ -3,14 +3,15 @@ package com.wrad.examenbimestral2.modelos
 import android.os.Parcel
 import android.os.Parcelable
 
-class ComidaParcelable(var id: String?,
-                       var nombrePlato: String?,
-                       var descripcionPlato: String?,
-                       var nacionalidad: String?,
-                       var numeroPersonas: Int?,
-                       var picante: Boolean?,
-                       var ingredientes: List<IngredienteParcelable>?,
-                       var usuario: UsuarioParcelable?
+class ComidaParcelable(
+        var id: String?,
+        var nombrePlato: String?,
+        var descripcionPlato: String?,
+        var nacionalidad: String?,
+        var numeroPersonas: Int?,
+        var picante: Boolean?,
+        var ingredientes: List<IngredienteParcelable>?,
+        var usuario: UsuarioParcelable?
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
             parcel.readString(),
@@ -32,6 +33,28 @@ class ComidaParcelable(var id: String?,
             null,
             null
     )
+
+    //for insert
+    constructor(
+            nombrePlato: String?,
+            descripcionPlato: String?,
+            nacionalidad: String?,
+            numeroPersonas: Int?,
+            picante: Boolean?,
+            usuario: UsuarioParcelable?
+    ) : this(null, nombrePlato, descripcionPlato, nacionalidad, numeroPersonas, picante, null, usuario)
+
+    //for update
+    constructor(
+            id: String?,
+            nombrePlato: String?,
+            descripcionPlato: String?,
+            nacionalidad: String?,
+            numeroPersonas: Int?,
+            picante: Boolean?,
+            usuario: UsuarioParcelable?
+    ) : this(id, nombrePlato, descripcionPlato, nacionalidad, numeroPersonas, picante, null, usuario)
+
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(id)

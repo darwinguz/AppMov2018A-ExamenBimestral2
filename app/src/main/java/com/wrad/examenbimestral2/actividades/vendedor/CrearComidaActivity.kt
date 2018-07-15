@@ -5,65 +5,71 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
-import android.view.View
 import com.google.firebase.auth.FirebaseAuth
 import com.wrad.examenbimestral2.MainActivity
 import com.wrad.examenbimestral2.R
 import com.wrad.examenbimestral2.modelos.ComidaParcelable
 import com.wrad.examenbimestral2.modelos.UsuarioParcelable
-import com.wrad.examenbimestral2.servicios.FirebaseService
+import com.wrad.examenbimestral2.servicios.DatabaseService
 import com.wrad.examenbimestral2.utilitarios.Constante
 import kotlinx.android.synthetic.main.activity_crear_comida.*
 
 class CrearComidaActivity : AppCompatActivity() {
-    var comidaEdit: ComidaParcelable? = null
+    var comidaToEdit: ComidaParcelable? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_crear_comida)
 
-        comidaEdit = intent.getParcelableExtra("comida-edit-intent")
-        Log.i("info", "COMIDA RECIBIDA POR EDITAR: $comidaEdit ")
+        comidaToEdit = intent.getParcelableExtra("comida-edit-intent")
+        Log.i("info", "COMIDA RECIBIDA POR EDITAR: $comidaToEdit ")
 
-        if (comidaEdit != null) {
-            txt_nombre_comida.setText(comidaEdit?.nombrePlato)
-            txt_descripcion_comida.setText(comidaEdit?.descripcionPlato)
-            txt_nacionalidad_comida.setText(comidaEdit?.nacionalidad)
-            txt_numero_personas_comida.setText(comidaEdit?.numeroPersonas.toString())
-            chk_picante_comida.isChecked = comidaEdit?.picante!!
+        if (comidaToEdit != null) {
+            lbl_crear_comida_title.text = "Editar Comida"
+
+            txt_nombre_comida.setText(comidaToEdit?.nombrePlato)
+            txt_descripcion_comida.setText(comidaToEdit?.descripcionPlato)
+            txt_nacionalidad_comida.setText(comidaToEdit?.nacionalidad)
+            txt_numero_personas_comida.setText(comidaToEdit?.numeroPersonas.toString())
+            chk_picante_comida.isChecked = comidaToEdit?.picante!!
         }
 
-        btn_guardar_comida.setOnClickListener(View.OnClickListener {
+        btn_guardar_comida.setOnClickListener {
             guardarComida()
             irListarComida()
-        })
+        }
 
-        btn_cancelar_comida.setOnClickListener(View.OnClickListener {
+        btn_cancelar_comida.setOnClickListener {
             irMenuPrincipal()
-        })
+        }
     }
 
-    //TODO este metodo completo
     private fun guardarComida() {
-        if (comidaEdit == null) {
+        if (comidaToEdit == null) {
             val comida = ComidaParcelable(
-                    null,
                     txt_nombre_comida.text.toString(),
                     txt_descripcion_comida.text.toString(),
                     txt_nacionalidad_comida.text.toString(),
                     txt_numero_personas_comida.text.toString().toInt(),
                     chk_picante_comida.isChecked,
-                    null,
                     UsuarioParcelable(FirebaseAuth.getInstance().currentUser!!.uid))
-            FirebaseService.insertWithAutogeratedKey(comida, Constante.COMIDA_FIREBASE)
+            DatabaseService.insertWithAutogeratedKey(comida, Constante.COMIDA_FIREBASE)
         } else {
-//            servicioComida.update(ModComida(comidaEdit!!.id, txt_nombre_comida.text.toString(), txt_descripcion_comida.text.toString(), txt_nacionalidad_comida.text.toString(), txt_numero_personas_comida.text.toString().toInt(), chk_picante_comida.isChecked, null))
+            val comidaUpdated = ComidaParcelable(
+                    comidaToEdit!!.id!!,
+                    txt_nombre_comida.text.toString(),
+                    txt_descripcion_comida.text.toString(),
+                    txt_nacionalidad_comida.text.toString(),
+                    txt_numero_personas_comida.text.toString().toInt(),
+                    chk_picante_comida.isChecked,
+                    UsuarioParcelable(FirebaseAuth.getInstance().currentUser!!.uid)
+            )
+            DatabaseService.updateAny(Constante.COMIDA_FIREBASE, comidaToEdit!!.id!!, comidaUpdated)
         }
     }
 
     private fun irListarComida() {
-        //TODO listar comida
-        // val intent = Intent(this, ListarComidaActivity::class.java)
+        val intent = Intent(this, ListarComidasActivity::class.java)
         startActivity(intent)
     }
 

@@ -10,16 +10,12 @@ import android.view.ContextMenu
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
 import com.wrad.examenbimestral2.R
 import com.wrad.examenbimestral2.actividades.vendedor.CrearComidaActivity
 import com.wrad.examenbimestral2.actividades.vendedor.ListarComidasActivity
 import com.wrad.examenbimestral2.actividades.vendedor.ListarIngredientesActivity
 import com.wrad.examenbimestral2.modelos.ComidaParcelable
-import com.wrad.examenbimestral2.servicios.FirebaseService
+import com.wrad.examenbimestral2.servicios.DatabaseService
 import com.wrad.examenbimestral2.utilitarios.Constante
 import com.wrad.examenbimestral2.utilitarios.Mensaje
 import kotlinx.android.synthetic.main.lista_fila_comida.view.*
@@ -46,7 +42,7 @@ class ComidaAdapter(private val comidas: ArrayList<ComidaParcelable>) :
             //FIXME ARREGLAR EL LLAMADO DEL OBJETO SELECCIONADO EN EL CONTEXT VIEW Y EL REFRESH
             editar.setOnMenuItemClickListener {
                 //busca y manda a ediar la comida encontrada
-                FirebaseService.selectBy("nombrePlato", view.lbl_nombre_lista_comida.text.toString(), Constante.COMIDA_FIREBASE, ComidaParcelable::class.java, ::editarComida)
+                DatabaseService.selectBy("nombrePlato", view.lbl_nombre_lista_comida.text.toString(), Constante.COMIDA_FIREBASE, ComidaParcelable::class.java, ::editarComida)
                 true
             }
 
@@ -55,7 +51,7 @@ class ComidaAdapter(private val comidas: ArrayList<ComidaParcelable>) :
                 val builder = AlertDialog.Builder(view.context)
                 builder.setMessage("Desdea eliminar este item?")
                         .setPositiveButton("Confirmar") { _, _ ->
-                            FirebaseService.delete("nombrePlato", view.lbl_nombre_lista_comida.text.toString(), Constante.COMIDA_FIREBASE)
+                            DatabaseService.delete("nombrePlato", view.lbl_nombre_lista_comida.text.toString(), Constante.COMIDA_FIREBASE)
                             //TODO refrescamiento view.recycler_view_comida.adapter.notifyDataSetChanged() https://stackoverflow.com/questions/31367599/how-to-update-recyclerview-adapter-data
                             irListarComida()
                         }
@@ -66,7 +62,7 @@ class ComidaAdapter(private val comidas: ArrayList<ComidaParcelable>) :
             }
 
             compartirCorreo.setOnMenuItemClickListener {
-                FirebaseService.selectBy("nombrePlato", view.lbl_nombre_lista_comida.text.toString(), Constante.COMIDA_FIREBASE, ComidaParcelable::class.java, ::enviarCorreo)
+                DatabaseService.selectBy("nombrePlato", view.lbl_nombre_lista_comida.text.toString(), Constante.COMIDA_FIREBASE, ComidaParcelable::class.java, ::enviarCorreo)
                 true
             }
         }

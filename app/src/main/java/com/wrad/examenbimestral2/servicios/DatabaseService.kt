@@ -4,8 +4,8 @@ import android.util.Log
 import com.google.firebase.database.*
 
 
-object FirebaseService {
-    private val TAG = FirebaseService::class.java.name
+object DatabaseService {
+    private val TAG = DatabaseService::class.java.name
 
     fun insertWithAutogeratedKey(any: Any, table: String) {
         val databaseTableReference = FirebaseDatabase.getInstance().getReference(table)
@@ -21,6 +21,13 @@ object FirebaseService {
         databaseTableReference.child("id").setValue(key)
     }
 
+    fun updateAny(table: String, key: String, any: Any) {
+        FirebaseDatabase.getInstance().getReference(table).child(key).setValue(any)
+    }
+
+    fun updateSpecificValue(table: String, key: String, atributteLabel: String, attributeValue: Any) {
+        FirebaseDatabase.getInstance().getReference(table).child(key).child(atributteLabel).setValue(attributeValue)
+    }
 
     fun <T> selectBy(atributteLabel: String, attributeValue: String, table: String, genericClass: Class<T>, ejecutar: (result: T) -> Unit) {
         val databaseReferenceByModel = FirebaseDatabase.getInstance().getReference(table)
@@ -46,7 +53,6 @@ object FirebaseService {
             }
         })
     }
-
 
     fun delete(atributteLabel: String, attributeValue: String, table: String) {
         val databaseReferenceByModel = FirebaseDatabase.getInstance().getReference(table)
