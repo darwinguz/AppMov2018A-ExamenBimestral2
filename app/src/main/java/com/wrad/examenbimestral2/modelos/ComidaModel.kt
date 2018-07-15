@@ -36,17 +36,6 @@ class ComidaModel(
             usuario: UsuarioModel?
     ) : this(null, nombrePlato, descripcionPlato, nacionalidad, numeroPersonas, picante, null, usuario)
 
-    //for update
-    constructor(
-            id: String?,
-            nombrePlato: String?,
-            descripcionPlato: String?,
-            nacionalidad: String?,
-            numeroPersonas: Int?,
-            picante: Boolean?,
-            usuario: UsuarioModel?
-    ) : this(id, nombrePlato, descripcionPlato, nacionalidad, numeroPersonas, picante, null, usuario)
-
     override fun toString(): String {
         return "id: $id, nombrePlato: $nombrePlato, descripcionPlato: $descripcionPlato, nacionalidad: $nacionalidad, numeroPersonas: $numeroPersonas, picante: $picante, ingredientes: $ingredientes, usuario: $usuario"
     }

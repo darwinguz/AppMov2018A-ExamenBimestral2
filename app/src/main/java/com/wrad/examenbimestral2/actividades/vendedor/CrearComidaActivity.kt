@@ -62,6 +62,7 @@ class CrearComidaActivity : AppCompatActivity() {
                     txt_nacionalidad_comida.text.toString(),
                     txt_numero_personas_comida.text.toString().toInt(),
                     chk_picante_comida.isChecked,
+                    comidaToEdit!!.ingredientes,
                     UsuarioModel(FirebaseAuth.getInstance().currentUser!!.uid)
             )
             DatabaseService.updateAny(Constante.COMIDA_FIREBASE, comidaToEdit!!.id!!, comidaUpdated)
