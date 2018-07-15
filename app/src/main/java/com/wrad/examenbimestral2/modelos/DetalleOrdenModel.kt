@@ -4,8 +4,8 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-class DetalleOrdenParcelable(
+class DetalleOrdenModel(
         var id: String,
-        var comida: ComidaParcelable?,
+        var comida: ComidaModel?,
         var precio: Double
 ) : Parcelable

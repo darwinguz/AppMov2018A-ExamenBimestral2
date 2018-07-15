@@ -9,8 +9,8 @@ import android.support.v7.widget.RecyclerView
 import android.util.Log
 import com.wrad.examenbimestral2.R
 import com.wrad.examenbimestral2.adapters.IngredienteAdapter
-import com.wrad.examenbimestral2.modelos.ComidaParcelable
-import com.wrad.examenbimestral2.modelos.IngredienteParcelable
+import com.wrad.examenbimestral2.modelos.ComidaModel
+import com.wrad.examenbimestral2.modelos.IngredienteModel
 import com.wrad.examenbimestral2.servicios.DatabaseService
 import com.wrad.examenbimestral2.utilitarios.Constante
 import kotlinx.android.synthetic.main.activity_listar_ingredientes.*
@@ -21,7 +21,7 @@ class ListarIngredientesActivity : AppCompatActivity() {
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: RecyclerView.LayoutManager
 
-    var comida: ComidaParcelable? = null
+    var comida: ComidaModel? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,7 +37,7 @@ class ListarIngredientesActivity : AppCompatActivity() {
             txt_numero_personas_ingrediente.text = comida?.numeroPersonas.toString()
             chk_picante_ingrediente.isChecked = comida?.picante!!
 
-            DatabaseService.selectAll(Constante.getReferenceIngredientes(comida!!.id!!), IngredienteParcelable::class.java, ::iniciarRecyclerView)
+            DatabaseService.selectAll(Constante.getReferenceIngredientes(comida!!.id!!), IngredienteModel::class.java, ::iniciarRecyclerView)
         } else {
             throw Exception("No se ha enviado ninguna comida a esta actividad.")
         }
@@ -48,9 +48,9 @@ class ListarIngredientesActivity : AppCompatActivity() {
 
     }
 
-    private fun iniciarRecyclerView(ingredientes: List<IngredienteParcelable>) {
+    private fun iniciarRecyclerView(ingredientes: List<IngredienteModel>) {
         viewManager = LinearLayoutManager(this)
-        viewAdapter = IngredienteAdapter(ingredientes as ArrayList<IngredienteParcelable>)
+        viewAdapter = IngredienteAdapter(ingredientes as ArrayList<IngredienteModel>)
 
         recyclerView = findViewById<RecyclerView>(R.id.recycler_view_ingrediente).apply {
             // use this setting to improve performance if you know that changes

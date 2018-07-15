@@ -14,7 +14,7 @@ import com.google.firebase.database.ValueEventListener
 import com.wrad.examenbimestral2.actividades.comprador.CompradorActivity
 import com.wrad.examenbimestral2.actividades.delivery.DeliveryActivity
 import com.wrad.examenbimestral2.actividades.vendedor.VendedorActivity
-import com.wrad.examenbimestral2.modelos.UsuarioParcelable
+import com.wrad.examenbimestral2.modelos.UsuarioModel
 import com.wrad.examenbimestral2.servicios.DatabaseService
 import com.wrad.examenbimestral2.utilitarios.Constante
 import com.wrad.examenbimestral2.utilitarios.Mensaje
@@ -61,7 +61,7 @@ class MainActivity : AppCompatActivity() {
 
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 if (dataSnapshot.exists()) {
-                    val user = dataSnapshot.getValue(UsuarioParcelable::class.java)
+                    val user = dataSnapshot.getValue(UsuarioModel::class.java)
                     Log.i(TAG, "Usuario logueado: " + user.toString())
                     val rol = user!!.tipo
                     when (rol) {
@@ -105,15 +105,15 @@ class MainActivity : AppCompatActivity() {
                                 .setItems(options) { _, which ->
                                     when (which) {
                                         0 -> {
-                                            insertarUsuarioFirebase(UsuarioParcelable(email, password, Constante.ROL_COMPRADOR))
+                                            insertarUsuarioFirebase(UsuarioModel(email, password, Constante.ROL_COMPRADOR))
                                             goToActivity(CompradorActivity::class.java)
                                         }
                                         1 -> {
-                                            insertarUsuarioFirebase(UsuarioParcelable(email, password, Constante.ROL_VENDEDOR))
+                                            insertarUsuarioFirebase(UsuarioModel(email, password, Constante.ROL_VENDEDOR))
                                             goToActivity(VendedorActivity::class.java)
                                         }
                                         2 -> {
-                                            insertarUsuarioFirebase(UsuarioParcelable(email, password, Constante.ROL_DELIVERY))
+                                            insertarUsuarioFirebase(UsuarioModel(email, password, Constante.ROL_DELIVERY))
                                             goToActivity(DeliveryActivity::class.java)
                                         }
                                         else -> { // Note the block
@@ -130,7 +130,7 @@ class MainActivity : AppCompatActivity() {
                 }
     }
 
-    private fun insertarUsuarioFirebase(nuevoUsuario: UsuarioParcelable) {
+    private fun insertarUsuarioFirebase(nuevoUsuario: UsuarioModel) {
         DatabaseService.insertWithSpecificKey(nuevoUsuario, Constante.USUARIO_FIREBASE, mAuth.currentUser!!.uid)
     }
 

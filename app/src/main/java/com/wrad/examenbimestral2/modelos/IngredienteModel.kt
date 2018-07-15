@@ -5,7 +5,7 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-class IngredienteParcelable(
+class IngredienteModel(
         var id: String?,
         val nombreIngrediente: String?,
         val cantidad: Int?,

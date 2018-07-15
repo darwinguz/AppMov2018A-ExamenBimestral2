@@ -1,14 +1,13 @@
 package com.wrad.examenbimestral2.modelos
 
-import android.os.Parcel
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 import java.util.*
 
 @Parcelize
-class OrdenParcelable(
+class OrdenModel(
         var id: String,
-        var usuario: UsuarioParcelable,
+        var usuario: UsuarioModel,
         var fecha: Date,
         var total: Double,
         var estado: Boolean,
@@ -16,5 +15,5 @@ class OrdenParcelable(
         var costoDelivery: Double,
         var fechaEntrega: Date,
         var costoEntrega: Double,
-        var detallesOrden: List<DetalleOrdenParcelable>
+        var detallesOrden: List<DetalleOrdenModel>
 ) : Parcelable

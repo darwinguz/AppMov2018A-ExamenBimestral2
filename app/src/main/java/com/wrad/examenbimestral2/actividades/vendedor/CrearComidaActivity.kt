@@ -8,14 +8,14 @@ import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.wrad.examenbimestral2.MainActivity
 import com.wrad.examenbimestral2.R
-import com.wrad.examenbimestral2.modelos.ComidaParcelable
-import com.wrad.examenbimestral2.modelos.UsuarioParcelable
+import com.wrad.examenbimestral2.modelos.ComidaModel
+import com.wrad.examenbimestral2.modelos.UsuarioModel
 import com.wrad.examenbimestral2.servicios.DatabaseService
 import com.wrad.examenbimestral2.utilitarios.Constante
 import kotlinx.android.synthetic.main.activity_crear_comida.*
 
 class CrearComidaActivity : AppCompatActivity() {
-    var comidaToEdit: ComidaParcelable? = null
+    var comidaToEdit: ComidaModel? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,23 +46,23 @@ class CrearComidaActivity : AppCompatActivity() {
 
     private fun guardarComida() {
         if (comidaToEdit == null) {
-            val comida = ComidaParcelable(
+            val comida = ComidaModel(
                     txt_nombre_comida.text.toString(),
                     txt_descripcion_comida.text.toString(),
                     txt_nacionalidad_comida.text.toString(),
                     txt_numero_personas_comida.text.toString().toInt(),
                     chk_picante_comida.isChecked,
-                    UsuarioParcelable(FirebaseAuth.getInstance().currentUser!!.uid))
+                    UsuarioModel(FirebaseAuth.getInstance().currentUser!!.uid))
             DatabaseService.insertWithAutogeratedKey(comida, Constante.COMIDA_FIREBASE)
         } else {
-            val comidaUpdated = ComidaParcelable(
+            val comidaUpdated = ComidaModel(
                     comidaToEdit!!.id!!,
                     txt_nombre_comida.text.toString(),
                     txt_descripcion_comida.text.toString(),
                     txt_nacionalidad_comida.text.toString(),
                     txt_numero_personas_comida.text.toString().toInt(),
                     chk_picante_comida.isChecked,
-                    UsuarioParcelable(FirebaseAuth.getInstance().currentUser!!.uid)
+                    UsuarioModel(FirebaseAuth.getInstance().currentUser!!.uid)
             )
             DatabaseService.updateAny(Constante.COMIDA_FIREBASE, comidaToEdit!!.id!!, comidaUpdated)
         }

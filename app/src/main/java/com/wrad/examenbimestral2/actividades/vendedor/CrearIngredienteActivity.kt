@@ -4,16 +4,16 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.wrad.examenbimestral2.R
-import com.wrad.examenbimestral2.modelos.ComidaParcelable
-import com.wrad.examenbimestral2.modelos.IngredienteParcelable
+import com.wrad.examenbimestral2.modelos.ComidaModel
+import com.wrad.examenbimestral2.modelos.IngredienteModel
 import com.wrad.examenbimestral2.servicios.DatabaseService
 import com.wrad.examenbimestral2.utilitarios.Constante
 import kotlinx.android.synthetic.main.activity_crear_ingrediente.*
 
 class CrearIngredienteActivity : AppCompatActivity() {
 
-    var comida: ComidaParcelable? = null
-    var ingredienteEdit: IngredienteParcelable? = null
+    var comida: ComidaModel? = null
+    var ingredienteEdit: IngredienteModel? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,7 +36,7 @@ class CrearIngredienteActivity : AppCompatActivity() {
         }
 
         btn_guardar_crear_ingrediente.setOnClickListener {
-            val ingrediente = IngredienteParcelable(
+            val ingrediente = IngredienteModel(
                     null,
                     txt_nombre_crear_ingrediente.text.toString(),
                     txt_cantidad_crear_ingrediente.text.toString().toInt(),

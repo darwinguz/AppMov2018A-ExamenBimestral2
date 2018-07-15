@@ -14,14 +14,14 @@ import com.wrad.examenbimestral2.R
 import com.wrad.examenbimestral2.actividades.vendedor.CrearComidaActivity
 import com.wrad.examenbimestral2.actividades.vendedor.ListarComidasActivity
 import com.wrad.examenbimestral2.actividades.vendedor.ListarIngredientesActivity
-import com.wrad.examenbimestral2.modelos.ComidaParcelable
+import com.wrad.examenbimestral2.modelos.ComidaModel
 import com.wrad.examenbimestral2.servicios.DatabaseService
 import com.wrad.examenbimestral2.utilitarios.Constante
 import com.wrad.examenbimestral2.utilitarios.Mensaje
 import kotlinx.android.synthetic.main.lista_fila_comida.view.*
 import java.util.*
 
-class ComidaAdapter(private val comidas: ArrayList<ComidaParcelable>) :
+class ComidaAdapter(private val comidas: ArrayList<ComidaModel>) :
         RecyclerView.Adapter<ComidaAdapter.ViewHolder>() {
 
     // Provide a reference to the views for each data item
@@ -42,7 +42,7 @@ class ComidaAdapter(private val comidas: ArrayList<ComidaParcelable>) :
             //FIXME ARREGLAR EL LLAMADO DEL OBJETO SELECCIONADO EN EL CONTEXT VIEW Y EL REFRESH
             editar.setOnMenuItemClickListener {
                 //busca y manda a ediar la comida encontrada
-                DatabaseService.selectSingleBy("nombrePlato", view.lbl_nombre_lista_comida.text.toString(), Constante.COMIDA_FIREBASE, ComidaParcelable::class.java, ::editarComida)
+                DatabaseService.selectSingleBy("nombrePlato", view.lbl_nombre_lista_comida.text.toString(), Constante.COMIDA_FIREBASE, ComidaModel::class.java, ::editarComida)
                 true
             }
 
@@ -62,12 +62,12 @@ class ComidaAdapter(private val comidas: ArrayList<ComidaParcelable>) :
             }
 
             compartirCorreo.setOnMenuItemClickListener {
-                DatabaseService.selectSingleBy("nombrePlato", view.lbl_nombre_lista_comida.text.toString(), Constante.COMIDA_FIREBASE, ComidaParcelable::class.java, ::enviarCorreo)
+                DatabaseService.selectSingleBy("nombrePlato", view.lbl_nombre_lista_comida.text.toString(), Constante.COMIDA_FIREBASE, ComidaModel::class.java, ::enviarCorreo)
                 true
             }
         }
 
-        fun editarComida(comida: ComidaParcelable?) {
+        fun editarComida(comida: ComidaModel?) {
             if (comida != null) {
                 Log.i("firebase", comida.nombrePlato)
                 irCrearComida(view.context, comida)
@@ -76,7 +76,7 @@ class ComidaAdapter(private val comidas: ArrayList<ComidaParcelable>) :
             }
         }
 
-        private fun enviarCorreo(comida: ComidaParcelable) {
+        private fun enviarCorreo(comida: ComidaModel) {
             val addressees = arrayOf("direccion@uno.com", "direccion@dos.com")
             val intent = Intent(Intent.ACTION_SEND)
             intent.type = "text/html"
@@ -92,7 +92,7 @@ class ComidaAdapter(private val comidas: ArrayList<ComidaParcelable>) :
             startActivity(view.context, intent, null)
         }
 
-        private fun irCrearComida(context: Context, comidaSelected: ComidaParcelable) {
+        private fun irCrearComida(context: Context, comidaSelected: ComidaModel) {
             val intent = Intent(context, CrearComidaActivity::class.java)
             intent.putExtra("comida-edit-intent", comidaSelected)
             Log.e("info", "COMIDA POR EDITAR ENVIADA: $comidaSelected ")
@@ -125,7 +125,7 @@ class ComidaAdapter(private val comidas: ArrayList<ComidaParcelable>) :
 
     }
 
-    private fun irAActividadIngredientesComida(context: Context, comidaSelected: ComidaParcelable) {
+    private fun irAActividadIngredientesComida(context: Context, comidaSelected: ComidaModel) {
         val intent = Intent(context, ListarIngredientesActivity::class.java)
         intent.putExtra("comida-intent", comidaSelected)
         Log.e("info", "COMIDA ENVIADA: $comidaSelected ")

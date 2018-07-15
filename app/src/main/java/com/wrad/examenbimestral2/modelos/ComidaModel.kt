@@ -4,15 +4,15 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-class ComidaParcelable(
+class ComidaModel(
         var id: String?,
         var nombrePlato: String?,
         var descripcionPlato: String?,
         var nacionalidad: String?,
         var numeroPersonas: Int?,
         var picante: Boolean?,
-        var ingredientes: Map<String, IngredienteParcelable>?,
-        var usuario: UsuarioParcelable?
+        var ingredientes: Map<String, IngredienteModel>?,
+        var usuario: UsuarioModel?
 ) : Parcelable {
 
     constructor() : this(
@@ -33,7 +33,7 @@ class ComidaParcelable(
             nacionalidad: String?,
             numeroPersonas: Int?,
             picante: Boolean?,
-            usuario: UsuarioParcelable?
+            usuario: UsuarioModel?
     ) : this(null, nombrePlato, descripcionPlato, nacionalidad, numeroPersonas, picante, null, usuario)
 
     //for update
@@ -44,7 +44,7 @@ class ComidaParcelable(
             nacionalidad: String?,
             numeroPersonas: Int?,
             picante: Boolean?,
-            usuario: UsuarioParcelable?
+            usuario: UsuarioModel?
     ) : this(id, nombrePlato, descripcionPlato, nacionalidad, numeroPersonas, picante, null, usuario)
 
     override fun toString(): String {

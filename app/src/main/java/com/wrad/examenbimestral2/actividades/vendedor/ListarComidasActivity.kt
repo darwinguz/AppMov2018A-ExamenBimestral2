@@ -11,7 +11,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.wrad.examenbimestral2.R
 import com.wrad.examenbimestral2.adapters.ComidaAdapter
-import com.wrad.examenbimestral2.modelos.ComidaParcelable
+import com.wrad.examenbimestral2.modelos.ComidaModel
 import com.wrad.examenbimestral2.utilitarios.Constante
 import java.util.*
 
@@ -43,10 +43,10 @@ class ListarComidasActivity : AppCompatActivity() {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 if (dataSnapshot.exists()) {
 //                    dataSnapshot.getValue()
-                    val datos: ArrayList<ComidaParcelable> = ArrayList()
+                    val datos: ArrayList<ComidaModel> = ArrayList()
 
                     for (it in dataSnapshot.children) {
-                        val comida = it.getValue(ComidaParcelable::class.java)
+                        val comida = it.getValue(ComidaModel::class.java)
                         datos.add(comida!!)
                         Log.i(TAG, comida.toString())
                         Log.i(TAG, it.toString())

@@ -13,12 +13,12 @@ import android.view.ViewGroup
 import com.wrad.examenbimestral2.R
 import com.wrad.examenbimestral2.actividades.vendedor.CrearIngredienteActivity
 import com.wrad.examenbimestral2.actividades.vendedor.ListarIngredientesActivity
-import com.wrad.examenbimestral2.modelos.ComidaParcelable
-import com.wrad.examenbimestral2.modelos.IngredienteParcelable
+import com.wrad.examenbimestral2.modelos.ComidaModel
+import com.wrad.examenbimestral2.modelos.IngredienteModel
 import kotlinx.android.synthetic.main.lista_fila_ingrediente.view.*
 import java.util.*
 
-class IngredienteAdapter(private val ingredientes: ArrayList<IngredienteParcelable>) :
+class IngredienteAdapter(private val ingredientes: ArrayList<IngredienteModel>) :
         RecyclerView.Adapter<IngredienteAdapter.ViewHolder>() {
 
     // Provide a reference to the views for each data item
@@ -77,7 +77,7 @@ class IngredienteAdapter(private val ingredientes: ArrayList<IngredienteParcelab
             }
         }
 
-        private fun enviarCorreo(ingrediente: IngredienteParcelable) {
+        private fun enviarCorreo(ingrediente: IngredienteModel) {
             val addressees = arrayOf("direccion@uno.com", "direccion@dos.com")
             val intent = Intent(Intent.ACTION_SEND)
             intent.type = "text/html"
@@ -89,13 +89,13 @@ class IngredienteAdapter(private val ingredientes: ArrayList<IngredienteParcelab
         }
 
 
-        private fun irListarIngredientes(comida: ComidaParcelable) {
+        private fun irListarIngredientes(comida: ComidaModel) {
             val intent = Intent(view.context, ListarIngredientesActivity::class.java)
             intent.putExtra("comida-intent", comida)
             ContextCompat.startActivity(view.context, intent, null)
         }
 
-        private fun irCrearIngrediente(context: Context, ingredienteSelected: IngredienteParcelable) {
+        private fun irCrearIngrediente(context: Context, ingredienteSelected: IngredienteModel) {
             val intent = Intent(context, CrearIngredienteActivity::class.java)
             intent.putExtra("ingrediente-edit-intent", ingredienteSelected)
             Log.e("info", "INGREDIENTE POR EDITAR ENVIADA: $ingredienteSelected ")

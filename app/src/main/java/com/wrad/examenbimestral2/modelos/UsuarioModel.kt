@@ -4,13 +4,13 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-class UsuarioParcelable(
+class UsuarioModel(
         var id: String?,
         var username: String?,
         var password: String?,
         var tipo: String?,
-        var comidas: List<ComidaParcelable>?,
-        var ordenes: List<OrdenParcelable>?) : Parcelable {
+        var comidas: List<ComidaModel>?,
+        var ordenes: List<OrdenModel>?) : Parcelable {
 
     constructor(username: String, password: String, tipo: String) : this(
             null,
