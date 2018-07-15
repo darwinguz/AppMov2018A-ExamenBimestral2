@@ -7,7 +7,7 @@ import com.google.firebase.database.*
 object FirebaseService {
     private val TAG = FirebaseService::class.java.name
 
-    fun insert(any: Any, table: String) {
+    fun insertWithAutogeratedKey(any: Any, table: String) {
         val databaseTableReference = FirebaseDatabase.getInstance().getReference(table)
         val id = databaseTableReference.push().key!!
         val refChild = databaseTableReference.child(id)
@@ -16,7 +16,7 @@ object FirebaseService {
     }
 
 
-    fun selectBy(atributteLabel: String, attributeValue: String, table: String, ejecutar: (result: DataSnapshot) -> Unit) {
+    fun <T> selectBy(atributteLabel: String, attributeValue: String, table: String, genericClass: Class<T>, ejecutar: (result: T) -> Unit) {
         val databaseReferenceByModel = FirebaseDatabase.getInstance().getReference(table)
         val queryRef = databaseReferenceByModel.orderByChild(atributteLabel).equalTo(attributeValue)
         queryRef.addListenerForSingleValueEvent(object : ValueEventListener {
@@ -26,7 +26,16 @@ object FirebaseService {
 
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 if (dataSnapshot.exists()) {
-                    ejecutar(dataSnapshot)
+                    var genericObject: T? = null
+                    for (it in dataSnapshot.children) {
+                        genericObject = it.getValue(genericClass)!!
+                    }
+                    if (genericObject != null) {
+                        ejecutar(genericObject)
+                    } else {
+                        Log.i(TAG, "Objeto no encontrado en la base de datos.")
+                        throw Exception("Objeto no encontrado en la base de datos.")
+                    }
                 }
             }
         })

@@ -45,7 +45,8 @@ class ComidaAdapter(private val comidas: ArrayList<ComidaParcelable>) :
 
             //FIXME ARREGLAR EL LLAMADO DEL OBJETO SELECCIONADO EN EL CONTEXT VIEW Y EL REFRESH
             editar.setOnMenuItemClickListener {
-                selectBy("nombrePlato", view.lbl_nombre_lista_comida.text.toString(), Constante.COMIDA_FIREBASE)
+                //busca y manda a ediar la comida encontrada
+                FirebaseService.selectBy("nombrePlato", view.lbl_nombre_lista_comida.text.toString(), Constante.COMIDA_FIREBASE, ComidaParcelable::class.java, ::editarComida)
                 true
             }
 
@@ -78,27 +79,6 @@ class ComidaAdapter(private val comidas: ArrayList<ComidaParcelable>) :
             } else {
                 Mensaje.emitirError(view.context, "Error al recuperar comida item.")
             }
-        }
-
-        fun selectBy(atributteLabel: String, attributeValue: String, table: String) {
-            val databaseReferenceByModel = FirebaseDatabase.getInstance().getReference(table)
-            val queryRef = databaseReferenceByModel.orderByChild(atributteLabel).equalTo(attributeValue)
-            databaseReferenceByModel.addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onCancelled(databaseError: DatabaseError) {
-                    Log.i("firebase", databaseError.message)
-                }
-
-                override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    if (dataSnapshot.exists()) {
-                        var comida: ComidaParcelable? = null
-                        for (it in dataSnapshot.children) {
-                            comida = it.getValue(ComidaParcelable::class.java)!!
-//                            comida.id = it.key
-                        }
-                        editarComida(comida)
-                    }
-                }
-            })
         }
 
         private fun enviarCorreo(comida: ComidaParcelable) {

@@ -55,7 +55,7 @@ class CrearComidaActivity : AppCompatActivity() {
                     chk_picante_comida.isChecked,
                     null,
                     UsuarioParcelable(FirebaseAuth.getInstance().currentUser!!.uid))
-            FirebaseService.insert(comida, Constante.COMIDA_FIREBASE)
+            FirebaseService.insertWithAutogeratedKey(comida, Constante.COMIDA_FIREBASE)
         } else {
 //            servicioComida.update(ModComida(comidaEdit!!.id, txt_nombre_comida.text.toString(), txt_descripcion_comida.text.toString(), txt_nacionalidad_comida.text.toString(), txt_numero_personas_comida.text.toString().toInt(), chk_picante_comida.isChecked, null))
         }
