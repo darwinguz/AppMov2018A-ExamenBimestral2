@@ -42,7 +42,7 @@ class ComidaAdapter(private val comidas: ArrayList<ComidaParcelable>) :
             //FIXME ARREGLAR EL LLAMADO DEL OBJETO SELECCIONADO EN EL CONTEXT VIEW Y EL REFRESH
             editar.setOnMenuItemClickListener {
                 //busca y manda a ediar la comida encontrada
-                DatabaseService.selectBy("nombrePlato", view.lbl_nombre_lista_comida.text.toString(), Constante.COMIDA_FIREBASE, ComidaParcelable::class.java, ::editarComida)
+                DatabaseService.selectSingleBy("nombrePlato", view.lbl_nombre_lista_comida.text.toString(), Constante.COMIDA_FIREBASE, ComidaParcelable::class.java, ::editarComida)
                 true
             }
 
@@ -62,7 +62,7 @@ class ComidaAdapter(private val comidas: ArrayList<ComidaParcelable>) :
             }
 
             compartirCorreo.setOnMenuItemClickListener {
-                DatabaseService.selectBy("nombrePlato", view.lbl_nombre_lista_comida.text.toString(), Constante.COMIDA_FIREBASE, ComidaParcelable::class.java, ::enviarCorreo)
+                DatabaseService.selectSingleBy("nombrePlato", view.lbl_nombre_lista_comida.text.toString(), Constante.COMIDA_FIREBASE, ComidaParcelable::class.java, ::enviarCorreo)
                 true
             }
         }

@@ -7,5 +7,10 @@ object Constante {
 
     const val USUARIO_FIREBASE = "usuario"
     const val COMIDA_FIREBASE = "comida"
+    const val INGREDIENTE_FIREBASE = "ingredientes"
+
+    fun getReferenceIngredientes(key: String): String {
+        return "$COMIDA_FIREBASE/$key/$INGREDIENTE_FIREBASE"
+    }
 
 }

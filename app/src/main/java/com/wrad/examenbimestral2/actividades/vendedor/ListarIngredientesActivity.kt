@@ -7,10 +7,14 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
-import android.view.View
 import com.wrad.examenbimestral2.R
+import com.wrad.examenbimestral2.adapters.IngredienteAdapter
 import com.wrad.examenbimestral2.modelos.ComidaParcelable
+import com.wrad.examenbimestral2.modelos.IngredienteParcelable
+import com.wrad.examenbimestral2.servicios.DatabaseService
+import com.wrad.examenbimestral2.utilitarios.Constante
 import kotlinx.android.synthetic.main.activity_listar_ingredientes.*
+import java.util.*
 
 class ListarIngredientesActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
@@ -32,11 +36,21 @@ class ListarIngredientesActivity : AppCompatActivity() {
             txt_nacionalidad_ingrediente.text = comida?.nacionalidad
             txt_numero_personas_ingrediente.text = comida?.numeroPersonas.toString()
             chk_picante_ingrediente.isChecked = comida?.picante!!
+
+            DatabaseService.selectAll(Constante.getReferenceIngredientes(comida!!.id!!), IngredienteParcelable::class.java, ::iniciarRecyclerView)
+        } else {
+            throw Exception("No se ha enviado ninguna comida a esta actividad.")
         }
-//TODO adaptador de ingrediente
+
+        btn_nuevo_ingrediente.setOnClickListener {
+            irCrearIngrediente()
+        }
+
+    }
+
+    private fun iniciarRecyclerView(ingredientes: List<IngredienteParcelable>) {
         viewManager = LinearLayoutManager(this)
-//        val dbHandler = SerIngrediente(this)
-//        viewAdapter = AdaIngrediente(dbHandler.selectAllByIdComida(comida?.id!!))
+        viewAdapter = IngredienteAdapter(ingredientes as ArrayList<IngredienteParcelable>)
 
         recyclerView = findViewById<RecyclerView>(R.id.recycler_view_ingrediente).apply {
             // use this setting to improve performance if you know that changes
@@ -50,11 +64,6 @@ class ListarIngredientesActivity : AppCompatActivity() {
             adapter = viewAdapter
 
         }
-
-        btn_nuevo_ingrediente.setOnClickListener(View.OnClickListener {
-            irCrearIngrediente()
-        })
-
     }
 
     private fun irCrearIngrediente() {

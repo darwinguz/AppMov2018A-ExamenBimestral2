@@ -121,9 +121,9 @@ class IngredienteAdapter(private val ingredientes: ArrayList<IngredienteParcelab
         holder.view.lbl_nombre_lista_ingrediente.text = ingredientes[position].nombreIngrediente
         holder.view.lbl_cantidad_lista_ingrediente.text = ingredientes[position].cantidad.toString()
         holder.view.lbl_descripcion_lista_ingrediente.text = ingredientes[position].descripcionPreparacion
-        holder.view.lbl_opcional_lista_ingrediente.text = if (ingredientes[position].opcional) "Opcional" else "No Opcional"
+        holder.view.lbl_opcional_lista_ingrediente.text = if (ingredientes[position].opcional!!) "Opcional" else "No Opcional"
         holder.view.lbl_tipo_lista_ingrediente.text = ingredientes[position].tipoIngrediente
-        holder.view.lbl_necesita_refrigeracion_lista_ingrediente.text = if (ingredientes[position].necesitaRefrigeracion) "Necesita Refrigeración" else "No Necesita Refrigeración"
+        holder.view.lbl_necesita_refrigeracion_lista_ingrediente.text = if (ingredientes[position].necesitaRefrigeracion!!) "Necesita Refrigeración" else "No Necesita Refrigeración"
     }
 
     // Return the size of your dataset (invoked by the layout manager)

@@ -6,6 +6,8 @@ import android.support.v7.app.AppCompatActivity
 import com.wrad.examenbimestral2.R
 import com.wrad.examenbimestral2.modelos.ComidaParcelable
 import com.wrad.examenbimestral2.modelos.IngredienteParcelable
+import com.wrad.examenbimestral2.servicios.DatabaseService
+import com.wrad.examenbimestral2.utilitarios.Constante
 import kotlinx.android.synthetic.main.activity_crear_ingrediente.*
 
 class CrearIngredienteActivity : AppCompatActivity() {
@@ -29,24 +31,33 @@ class CrearIngredienteActivity : AppCompatActivity() {
             chk_necesita_refrigeracion_crear_ingrediente.isChecked = ingredienteEdit?.necesitaRefrigeracion!!
         }
 
-        btn_cancelar_crear_ingrediente.setOnClickListener({
+        btn_cancelar_crear_ingrediente.setOnClickListener {
             irIngredientes()
-        })
+        }
 
-        btn_guardar_crear_ingrediente.setOnClickListener({
-            val ingrediente = IngredienteParcelable(null, txt_nombre_crear_ingrediente.text.toString(), txt_cantidad_crear_ingrediente.text.toString().toInt(), txt_descripcion_crear_ingrediente.text.toString(), chk_opcional_crear_ingrediente.isChecked, txt_tipo_crear_ingrediente.text.toString(), chk_necesita_refrigeracion_crear_ingrediente.isChecked, null)
-           //TODO implementar servicio
-//            val serIngrediente = SerIngrediente(this)
+        btn_guardar_crear_ingrediente.setOnClickListener {
+            val ingrediente = IngredienteParcelable(
+                    null,
+                    txt_nombre_crear_ingrediente.text.toString(),
+                    txt_cantidad_crear_ingrediente.text.toString().toInt(),
+                    txt_descripcion_crear_ingrediente.text.toString(),
+                    chk_opcional_crear_ingrediente.isChecked,
+                    txt_tipo_crear_ingrediente.text.toString(),
+                    chk_necesita_refrigeracion_crear_ingrediente.isChecked,
+                    null
+            )
+            val referenceIngrediente = Constante.getReferenceIngredientes(comida?.id!!)
+
             if (ingredienteEdit == null) {
-//                ingrediente.comidaId = comida?.id!!
-//                serIngrediente.insert(ingrediente)
+                ingrediente.comidaId = comida?.id
+                DatabaseService.insertWithAutogeratedKey(ingrediente, referenceIngrediente)
             } else {
                 ingrediente.id = ingredienteEdit!!.id
                 ingrediente.comidaId = ingredienteEdit!!.comidaId
-//                serIngrediente.update(ingrediente)
+                DatabaseService.updateAny(referenceIngrediente, ingrediente.id!!, ingrediente)
             }
             irIngredientes()
-        })
+        }
     }
 
     private fun irIngredientes() {

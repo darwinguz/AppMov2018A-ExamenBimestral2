@@ -7,30 +7,44 @@ import com.google.firebase.database.*
 object DatabaseService {
     private val TAG = DatabaseService::class.java.name
 
-    fun insertWithAutogeratedKey(any: Any, table: String) {
-        val databaseTableReference = FirebaseDatabase.getInstance().getReference(table)
+    fun insertWithAutogeratedKey(any: Any, referece: String) {
+        val databaseTableReference = FirebaseDatabase.getInstance().getReference(referece)
         val id = databaseTableReference.push().key!!
         val refChild = databaseTableReference.child(id)
         refChild.setValue(any)
         refChild.child("id").setValue(id)
     }
 
-    fun insertWithSpecificKey(any: Any, table: String, key: String) {
-        val databaseTableReference = FirebaseDatabase.getInstance().getReference(table).child(key)
+    fun insertWithSpecificKey(any: Any, reference: String, key: String) {
+        val databaseTableReference = FirebaseDatabase.getInstance().getReference(reference).child(key)
         databaseTableReference.setValue(any)
         databaseTableReference.child("id").setValue(key)
     }
 
-    fun updateAny(table: String, key: String, any: Any) {
-        FirebaseDatabase.getInstance().getReference(table).child(key).setValue(any)
+    fun <T> selectAll(reference: String, genericClass: Class<T>, ejecutar: (results: List<T>) -> Unit) {
+        val databaseReferenceByModel = FirebaseDatabase.getInstance().getReference(reference)
+        databaseReferenceByModel.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onCancelled(databaseError: DatabaseError) {
+                Log.i(TAG, databaseError.message)
+            }
+
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    var genericObject: T
+                    val objects = ArrayList<T>()
+                    for (it in dataSnapshot.children) {
+                        genericObject = it.getValue(genericClass)!!
+                        objects.add(genericObject)
+                    }
+                    ejecutar(objects)
+                }
+            }
+        })
     }
 
-    fun updateSpecificValue(table: String, key: String, atributteLabel: String, attributeValue: Any) {
-        FirebaseDatabase.getInstance().getReference(table).child(key).child(atributteLabel).setValue(attributeValue)
-    }
 
-    fun <T> selectBy(atributteLabel: String, attributeValue: String, table: String, genericClass: Class<T>, ejecutar: (result: T) -> Unit) {
-        val databaseReferenceByModel = FirebaseDatabase.getInstance().getReference(table)
+    fun <T> selectSingleBy(atributteLabel: String, attributeValue: String, reference: String, genericClass: Class<T>, ejecutar: (result: T) -> Unit) {
+        val databaseReferenceByModel = FirebaseDatabase.getInstance().getReference(reference)
         val queryRef = databaseReferenceByModel.orderByChild(atributteLabel).equalTo(attributeValue)
         queryRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onCancelled(databaseError: DatabaseError) {
@@ -43,6 +57,7 @@ object DatabaseService {
                     for (it in dataSnapshot.children) {
                         genericObject = it.getValue(genericClass)!!
                     }
+                    //TODO validar single result
                     if (genericObject != null) {
                         ejecutar(genericObject)
                     } else {
@@ -54,8 +69,16 @@ object DatabaseService {
         })
     }
 
-    fun delete(atributteLabel: String, attributeValue: String, table: String) {
-        val databaseReferenceByModel = FirebaseDatabase.getInstance().getReference(table)
+    fun updateAny(reference: String, key: String, any: Any) {
+        FirebaseDatabase.getInstance().getReference(reference).child(key).setValue(any)
+    }
+
+    fun updateSpecificValue(referece: String, key: String, atributteLabel: String, attributeValue: Any) {
+        FirebaseDatabase.getInstance().getReference(referece).child(key).child(atributteLabel).setValue(attributeValue)
+    }
+
+    fun delete(atributteLabel: String, attributeValue: String, reference: String) {
+        val databaseReferenceByModel = FirebaseDatabase.getInstance().getReference(reference)
         val queryRef = databaseReferenceByModel.orderByChild(atributteLabel).equalTo(attributeValue)
         queryRef.addChildEventListener(object : ChildEventListener {
             override fun onCancelled(p0: DatabaseError?) {

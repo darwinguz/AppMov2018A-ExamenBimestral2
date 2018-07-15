@@ -3,14 +3,15 @@ package com.wrad.examenbimestral2.modelos
 import android.os.Parcel
 import android.os.Parcelable
 
-class IngredienteParcelable( var id: String?,
-                             val nombreIngrediente: String,
-                             val cantidad: Int,
-                             val descripcionPreparacion: String,
-                             val opcional: Boolean,
-                             val tipoIngrediente: String,
-                             val necesitaRefrigeracion: Boolean,
-                             var comidaId: Int?
+class IngredienteParcelable(
+        var id: String?,
+        val nombreIngrediente: String?,
+        val cantidad: Int?,
+        val descripcionPreparacion: String?,
+        val opcional: Boolean?,
+        val tipoIngrediente: String?,
+        val necesitaRefrigeracion: Boolean?,
+        var comidaId: String?
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
             parcel.readString(),
@@ -20,17 +21,33 @@ class IngredienteParcelable( var id: String?,
             parcel.readByte() != 0.toByte(),
             parcel.readString(),
             parcel.readByte() != 0.toByte(),
-            parcel.readValue(Int::class.java.classLoader) as? Int) {
-    }
+            parcel.readString())
+
+    constructor() : this(
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+    )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(id)
         parcel.writeString(nombreIngrediente)
-        parcel.writeInt(cantidad)
+        if (cantidad != null) {
+            parcel.writeInt(cantidad)
+        }
         parcel.writeString(descripcionPreparacion)
-        parcel.writeByte(if (opcional) 1 else 0)
+        if (opcional != null) {
+            parcel.writeByte(if (opcional) 1 else 0)
+        }
         parcel.writeString(tipoIngrediente)
-        parcel.writeByte(if (necesitaRefrigeracion) 1 else 0)
+        if (necesitaRefrigeracion != null) {
+            parcel.writeByte(if (necesitaRefrigeracion) 1 else 0)
+        }
         parcel.writeValue(comidaId)
     }
 
