@@ -66,8 +66,7 @@ class ComidaAdapter(private val comidas: ArrayList<ComidaParcelable>) :
             }
 
             compartirCorreo.setOnMenuItemClickListener {
-                //TODO implementar
-//                FirebaseService.selectBy("nombrePlato", view.lbl_nombre_lista_comida.text.toString(), Constante.COMIDA_FIREBASE, ComidaParcelable::class.java, ::enviarCorreo)
+                FirebaseService.selectBy("nombrePlato", view.lbl_nombre_lista_comida.text.toString(), Constante.COMIDA_FIREBASE, ComidaParcelable::class.java, ::enviarCorreo)
                 true
             }
         }
