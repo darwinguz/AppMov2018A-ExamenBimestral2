@@ -12,10 +12,24 @@ class ComidaModel(
         var numeroPersonas: Int?,
         var picante: Boolean?,
         var ingredientes: Map<String, IngredienteModel>?,
-        var usuario: UsuarioModel?
+        var usuario: UsuarioModel?,
+        var fotos: Map<String, FotoComidaModel>?
 ) : Parcelable {
 
     constructor() : this(
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+    )
+
+    constructor(id: String?) : this(
+            id,
             null,
             null,
             null,
@@ -34,7 +48,7 @@ class ComidaModel(
             numeroPersonas: Int?,
             picante: Boolean?,
             usuario: UsuarioModel?
-    ) : this(null, nombrePlato, descripcionPlato, nacionalidad, numeroPersonas, picante, null, usuario)
+    ) : this(null, nombrePlato, descripcionPlato, nacionalidad, numeroPersonas, picante, null, usuario, null)
 
     override fun toString(): String {
         return "id: $id, nombrePlato: $nombrePlato, descripcionPlato: $descripcionPlato, nacionalidad: $nacionalidad, numeroPersonas: $numeroPersonas, picante: $picante, ingredientes: $ingredientes, usuario: $usuario"

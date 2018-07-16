@@ -15,6 +15,16 @@ object DatabaseService {
         refChild.child("id").setValue(id)
     }
 
+    fun insertWithAutogeratedKey(any: Any, referece: String, ejecutar: (key: String) -> Unit) {
+        val databaseTableReference = FirebaseDatabase.getInstance().getReference(referece)
+        val id = databaseTableReference.push().key!!
+        val refChild = databaseTableReference.child(id)
+        refChild.setValue(any)
+        refChild.child("id").setValue(id)
+        ejecutar(id)
+    }
+
+
     fun insertWithSpecificKey(any: Any, reference: String, key: String) {
         val databaseTableReference = FirebaseDatabase.getInstance().getReference(reference).child(key)
         databaseTableReference.setValue(any)

@@ -12,28 +12,39 @@ import android.provider.MediaStore
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.support.v4.content.FileProvider
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
+import android.text.InputType
 import android.util.Log
+import android.widget.EditText
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.wrad.examenbimestral2.R
+import com.wrad.examenbimestral2.adapters.FotosComidaAdapter
 import com.wrad.examenbimestral2.modelos.ComidaModel
+import com.wrad.examenbimestral2.modelos.FotoComidaModel
+import com.wrad.examenbimestral2.servicios.DatabaseService
+import com.wrad.examenbimestral2.utilitarios.Constante
+import com.wrad.examenbimestral2.utilitarios.Mensaje
 import kotlinx.android.synthetic.main.activity_fotos_comida.*
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
-import android.R.string.cancel
-import android.content.DialogInterface
-import android.support.v7.app.AlertDialog
-import android.text.InputType
-import android.widget.EditText
-import com.wrad.examenbimestral2.utilitarios.Mensaje
+import kotlin.collections.ArrayList
 
 
 class FotosComidaActivity : AppCompatActivity() {
     private lateinit var storageRef: StorageReference
     private lateinit var comida: ComidaModel
+
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var viewAdapter: RecyclerView.Adapter<*>
+    private lateinit var viewManager: RecyclerView.LayoutManager
+    private lateinit var fotos: ArrayList<FotoComidaModel>
+
 
     companion object {
         private const val TAG = "FotosComidaActivity"
@@ -49,18 +60,16 @@ class FotosComidaActivity : AppCompatActivity() {
         val permisosDeCamara = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
         val noTienePermisosDeCamara = permisosDeCamara != PackageManager.PERMISSION_GRANTED
 
-
         if (noTienePermisosDeCamara) {
-
-            Log.i("tag", "Entrando a pedir permiso")
-
-            ActivityCompat.requestPermissions(this,
+            Log.i(TAG, "Entrando a pedir permiso de CAMARA")
+            ActivityCompat.requestPermissions(
+                    this,
                     arrayOf(Manifest.permission.CAMERA,
                             Manifest.permission.SEND_SMS),
-                    RESULTADO_PERMISO_CAMARA)
-
+                    RESULTADO_PERMISO_CAMARA
+            )
         } else {
-            Log.i("tag", "Ya tiene este permiso")
+            Log.i(TAG, "Ya tiene este permiso de CAMARA")
         }
 
 
@@ -69,8 +78,28 @@ class FotosComidaActivity : AppCompatActivity() {
         comida = intent.getParcelableExtra("comida-intent")
 
         btn_crear_fotos_comida.setOnClickListener {
-            //            subirFoto()
             tomarFoto()
+        }
+
+        if (comida.fotos != null) {
+            fotos = ArrayList(comida.fotos!!.values)
+        } else {
+            fotos = ArrayList()
+        }
+
+        viewManager = LinearLayoutManager(this)
+        viewAdapter = FotosComidaAdapter(fotos)
+
+        recyclerView = findViewById<RecyclerView>(R.id.recycler_view_fotos_comida).apply {
+            // use this setting to improve performance if you know that changes
+            // in content do not change the layout size of the RecyclerView
+            setHasFixedSize(true)
+
+            // use a linear layout manager
+            layoutManager = viewManager
+
+            // specify an viewAdapter (see also next example)
+            adapter = viewAdapter
         }
 
     }
@@ -103,7 +132,7 @@ class FotosComidaActivity : AppCompatActivity() {
                     val fotoActualBitmap = BitmapFactory
                             .decodeFile(directorioActualImagen)
                     subirFoto()
-                    //FIXME imagen
+                    //TODO imagen preview
 //                    image_view_camera2.setImageBitmap(fotoActualBitmap)
                 }
             }
@@ -111,8 +140,6 @@ class FotosComidaActivity : AppCompatActivity() {
     }
 
     private fun subirFoto() {
-//        val file = Uri.fromFile(File("path/to/images/rivers.jpg"))
-//        val file = Uri.fromFile(File("https://en.wikipedia.org/wiki/Encebollado#/media/File:Semifinal_del_Campeonato_del_Encebollado_en_Esmeraldas_2015_(17902559519).jpg"))
         val file = Uri.fromFile(File(directorioActualImagen))
 
         val input = EditText(this)
@@ -124,13 +151,23 @@ class FotosComidaActivity : AppCompatActivity() {
                 .setView(input)
                 .setPositiveButton("OK") { dialog, which ->
                     val textInput = input.text.toString()
-                    val riversRef = storageRef.child("${FirebaseAuth.getInstance().currentUser!!.uid}/$textInput.jpg")
-                    riversRef.putFile(file)
+                    val fileName = "$textInput.jpg"
+                    val photosRef = storageRef.child("${FirebaseAuth.getInstance().currentUser!!.uid}/${comida.id}/$fileName")
+                    photosRef.putFile(file)
                             .addOnSuccessListener { taskSnapshot ->
                                 // Get a URL to the uploaded content
                                 val downloadUrl = taskSnapshot.downloadUrl
                                 Log.i(TAG, downloadUrl.toString())
                                 Mensaje.emitirInformacion(this, "Imagen guardada con exito.")
+                                val fotoToInsert = FotoComidaModel(fileName, downloadUrl.toString(), comida.id!!)
+                                DatabaseService.insertWithAutogeratedKey(fotoToInsert, Constante.getReferenceFotosComida(comida.id!!)) {
+                                    //TODO implementar refresh
+                                    fotoToInsert.id = it
+                                    fotos.add(fotoToInsert)
+                                    viewAdapter.notifyItemInserted(fotos.size)
+                                    viewAdapter.notifyDataSetChanged()
+                                    Mensaje.emitirInformacion(this, "Imagen actualizada y subida a la RealTimeDatabase con exito.")
+                                }
                             }
                             .addOnFailureListener {
                                 // Handle unsuccessful uploads
