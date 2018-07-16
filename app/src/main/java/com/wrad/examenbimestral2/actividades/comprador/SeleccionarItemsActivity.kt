@@ -13,11 +13,14 @@ import com.wrad.examenbimestral2.utilitarios.Constante
 import kotlinx.android.synthetic.main.activity_seleccionar_items.*
 
 class SeleccionarItemsActivity : AppCompatActivity() {
-
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: RecyclerView.LayoutManager
     private lateinit var items: ArrayList<ComidaModel>
+
+    companion object {
+        val carritoCompras = ArrayList<ComidaModel>()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,7 +43,7 @@ class SeleccionarItemsActivity : AppCompatActivity() {
                 // use this setting to improve performance if you know that changes
                 // in content do not change the layout size of the RecyclerView
 
-                setHasFixedSize(true)
+//                setHasFixedSize(true)
 
                 // use a linear layout manager
                 layoutManager = viewManager
@@ -55,4 +58,5 @@ class SeleccionarItemsActivity : AppCompatActivity() {
         val intent = Intent(this, genericActivityClass)
         startActivity(intent)
     }
+
 }

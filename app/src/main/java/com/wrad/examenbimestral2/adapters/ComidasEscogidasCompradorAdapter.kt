@@ -5,15 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.wrad.examenbimestral2.R
-import com.wrad.examenbimestral2.actividades.comprador.CrearOrdenActivity
-import com.wrad.examenbimestral2.actividades.comprador.SeleccionarItemsActivity
 import com.wrad.examenbimestral2.modelos.ComidaModel
-import kotlinx.android.synthetic.main.lista_fila_comidas_disponibles.view.*
+import kotlinx.android.synthetic.main.lista_fila_comidas_escogidas.view.*
 import java.util.*
 
 
-class ComidasCompradorAdapter(private var items: ArrayList<ComidaModel>) :
-        RecyclerView.Adapter<ComidasCompradorAdapter.ViewHolder>() {
+class ComidasEscogidasCompradorAdapter(private var items: ArrayList<ComidaModel>) :
+        RecyclerView.Adapter<ComidasEscogidasCompradorAdapter.ViewHolder>() {
 
     //FIXME no se puede acceder desde la instancia en FotosComidaActivity ??? why???
     fun swap(datas: ArrayList<ComidaModel>?) {
@@ -36,7 +34,7 @@ class ComidasCompradorAdapter(private var items: ArrayList<ComidaModel>) :
                                     viewType: Int): ViewHolder {
         // create a new view
         val textView = LayoutInflater.from(parent.context)//root=null para que se ajuste la pantalla
-                .inflate(R.layout.lista_fila_comidas_disponibles, null, false)
+                .inflate(R.layout.lista_fila_comidas_escogidas, null, false)
         // set the view's size, margins, paddings and layout parameters
         //...
         return ViewHolder(textView)
@@ -47,17 +45,7 @@ class ComidasCompradorAdapter(private var items: ArrayList<ComidaModel>) :
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
 
-        holder.view.lbl_nombre_lista_comida_disponibles.text = items[position].nombrePlato
-        holder.view.lbl_descripcion_value_lista_comida_disponibles.text = items[position].descripcionPlato
-        holder.view.lbl_nacionalidad_value_lista_comida_disponibles.text = items[position].nacionalidad
-        holder.view.lbl_numero_personas_value_lista_comida_disponibles.text = items[position].numeroPersonas.toString()
-        holder.view.chk_escogido_lista_comida_disponibles.setOnClickListener {
-            SeleccionarItemsActivity.carritoCompras.add(items[position])
-            items.removeAt(position)
-//            recycler.removeViewAt(position)
-            notifyItemRemoved(position)
-            notifyItemRangeChanged(position, items.size)
-        }
+        holder.view.lbl_nombre_lista_comida_escogida.text = items[position].nombrePlato
 
     }
 

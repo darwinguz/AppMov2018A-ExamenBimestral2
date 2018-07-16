@@ -8,9 +8,6 @@ import com.wrad.examenbimestral2.modelos.ComidaModel
 import kotlinx.android.synthetic.main.activity_comprador.*
 
 class CompradorActivity : AppCompatActivity() {
-    companion object {
-        val carritoCompras = ArrayList<ComidaModel>()
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
