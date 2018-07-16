@@ -42,7 +42,9 @@
         <activity android:name=".actividades.vendedor.ListarComidasActivity" />
         <activity android:name=".actividades.vendedor.ListarIngredientesActivity" />
         <activity android:name=".actividades.vendedor.CrearIngredienteActivity" />
-        <activity android:name=".actividades.vendedor.FotosComidaActivity"></activity>
+        <activity android:name=".actividades.vendedor.FotosComidaActivity" />
+        <activity android:name=".actividades.comprador.CrearOrdenActivity" />
+        <activity android:name=".actividades.comprador.SeleccionarItemsActivity"></activity>
     </application>
 
 </manifest>

@@ -1,5 +1,7 @@
 package com.wrad.examenbimestral2.utilitarios
 
+import com.wrad.examenbimestral2.modelos.ComidaModel
+
 object Constante {
     const val ROL_COMPRADOR = "Comprador"
     const val ROL_VENDEDOR = "Vendedor"

@@ -6,14 +6,28 @@ import java.util.*
 
 @Parcelize
 class OrdenModel(
-        var id: String,
-        var usuario: UsuarioModel,
-        var fecha: Date,
-        var total: Double,
-        var estado: Boolean,
-        var ubicacionEntrega: String,
-        var costoDelivery: Double,
-        var fechaEntrega: Date,
-        var costoEntrega: Double,
-        var detallesOrden: List<DetalleOrdenModel>
-) : Parcelable
+        var id: String?,
+        var usuario: UsuarioModel?,
+        var fecha: Date?,
+        var total: Double?,
+        var estado: Boolean?,
+        var ubicacionEntrega: String?,
+        var costoDelivery: Double?,
+        var fechaEntrega: Date?,
+        var costoEntrega: Double?,
+        var detallesOrden: List<DetalleOrdenModel>?
+) : Parcelable {
+    constructor() : this(
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+    )
+}
+
