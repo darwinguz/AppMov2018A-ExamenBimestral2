@@ -6,4 +6,12 @@
     android:layout_height="match_parent"
     tools:context=".actividades.vendedor.FotosComidaActivity">
 
+    <Button
+        android:id="@+id/btn_crear_fotos_comida"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Crear"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="139dp" />
 </android.support.constraint.ConstraintLayout>
