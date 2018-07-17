@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.wrad.examenbimestral2.R
-import com.wrad.examenbimestral2.modelos.ComidaModel
 import kotlinx.android.synthetic.main.activity_comprador.*
 
 class CompradorActivity : AppCompatActivity() {
@@ -15,6 +14,10 @@ class CompradorActivity : AppCompatActivity() {
 
         btn_crear_ordenes_comprador.setOnClickListener {
             goToActivity(SeleccionarItemsActivity::class.java)
+        }
+
+        btn_ver_ordenes_comprador.setOnClickListener {
+            goToActivity(VerOrdenesActivity::class.java)
         }
     }
 
