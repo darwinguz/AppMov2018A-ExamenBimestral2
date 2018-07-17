@@ -10,7 +10,7 @@ class OrdenModel(
         var usuario: UsuarioModel?,
         var fecha: Date?,
         var total: Double?,
-        var estado: Boolean?,
+        var estado: String?,
         var ubicacionEntrega: String?,
         var costoDelivery: Double?,
         var fechaEntrega: Date?,
@@ -29,5 +29,17 @@ class OrdenModel(
             null,
             null
     )
+
+    constructor(
+            usuario: UsuarioModel,
+            fecha: Date,
+            total: Double,
+            estado: String,
+            ubicacionEntrega: String,
+            costoDelivery: Double,
+            fechaEntrega: Date,
+            costoEntrega: Double,
+            detallesOrden: List<DetalleOrdenModel>
+    ) : this(null, usuario, fecha, total, estado, ubicacionEntrega, costoDelivery, fechaEntrega, costoEntrega, detallesOrden)
 }
 

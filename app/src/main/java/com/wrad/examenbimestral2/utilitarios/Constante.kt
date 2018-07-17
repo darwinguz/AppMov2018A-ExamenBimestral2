@@ -1,7 +1,5 @@
 package com.wrad.examenbimestral2.utilitarios
 
-import com.wrad.examenbimestral2.modelos.ComidaModel
-
 object Constante {
     const val ROL_COMPRADOR = "Comprador"
     const val ROL_VENDEDOR = "Vendedor"
@@ -11,6 +9,7 @@ object Constante {
     const val COMIDA_FIREBASE = "comida"
     const val INGREDIENTE_FIREBASE = "ingredientes"
     const val FOTOS_COMIDA_FIREBASE = "fotos"
+    const val ORDEN_FIREBASE = "orden"
 
     fun getReferenceIngredientes(keyComida: String): String {
         return "$COMIDA_FIREBASE/$keyComida/$INGREDIENTE_FIREBASE"
@@ -19,5 +18,9 @@ object Constante {
     fun getReferenceFotosComida(keyComida: String): String {
         return "$COMIDA_FIREBASE/$keyComida/$FOTOS_COMIDA_FIREBASE"
     }
+
+    const val ESTADO_ORDEN_RESERVADO = "Reservado"
+    const val ESTADO_ORDEN_EN_ESPERA = "En espera"
+    const val ESTADO_ORDEN_ENTREGADO = "Entregado"
 
 }

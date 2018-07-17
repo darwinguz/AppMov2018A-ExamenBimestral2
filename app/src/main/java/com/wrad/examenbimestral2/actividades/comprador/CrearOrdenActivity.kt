@@ -1,14 +1,20 @@
 package com.wrad.examenbimestral2.actividades.comprador
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
+import com.google.firebase.auth.FirebaseAuth
 import com.wrad.examenbimestral2.R
 import com.wrad.examenbimestral2.adapters.DetallesOrdenAdapter
 import com.wrad.examenbimestral2.modelos.DetalleOrdenModel
 import com.wrad.examenbimestral2.modelos.OrdenModel
+import com.wrad.examenbimestral2.modelos.UsuarioModel
+import com.wrad.examenbimestral2.servicios.DatabaseService
+import com.wrad.examenbimestral2.utilitarios.Constante
+import com.wrad.examenbimestral2.utilitarios.Mensaje
 import kotlinx.android.synthetic.main.activity_crear_orden.*
 import java.util.*
 import kotlin.collections.ArrayList
@@ -51,6 +57,22 @@ class CrearOrdenActivity : AppCompatActivity() {
         iniciarRecyclerView(detallesOrden)
 
         btn_crear_orden.setOnClickListener {
+            val orden = OrdenModel(
+                    UsuarioModel(FirebaseAuth.getInstance().currentUser!!.uid),
+                    Date(),
+                    txt_total_comidas_crear_orden.text.toString().toDouble(),
+                    Constante.ESTADO_ORDEN_RESERVADO,
+                    txt_ubicacion_crear_orden.text.toString(),
+                    txt_costo_delivery_crear_orden.text.toString().toDouble(),
+                    Date(),
+                    txt_costo_entrega_crear_orden.text.toString().toDouble(),
+                    this.detallesOrden
+            )
+            DatabaseService.insertWithAutogeratedKey(orden, "${Constante.ORDEN_FIREBASE}/${orden.usuario!!.id}") {
+                finish()
+                goToActivity(CompradorActivity::class.java)
+                Mensaje.emitirInformacion(this, "Orden creada cone exito.")
+            }
         }
     }
 
@@ -70,5 +92,10 @@ class CrearOrdenActivity : AppCompatActivity() {
             adapter = viewAdapter
 
         }
+    }
+
+    private fun <T> goToActivity(genericActivityClass: Class<T>) {
+        val intent = Intent(this, genericActivityClass)
+        startActivity(intent)
     }
 }
