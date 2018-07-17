@@ -43,7 +43,8 @@ class MainActivity : AppCompatActivity() {
 
         //TODO solo para test, borrar
 //        txt_email_login.setText("vendedor10@email.com")
-        txt_email_login.setText("comprador10@email.com")
+//        txt_email_login.setText("comprador10@email.com")
+        txt_email_login.setText("delivery10@email.com")
         txt_password_login.setText("123456")
 
         btn_log_in.setOnClickListener {

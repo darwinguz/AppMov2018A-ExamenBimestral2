@@ -56,7 +56,8 @@
         <activity android:name=".actividades.vendedor.FotosComidaActivity" />
         <activity android:name=".actividades.comprador.CrearOrdenActivity" />
         <activity android:name=".actividades.comprador.SeleccionarItemsActivity" />
-        <activity android:name=".actividades.comprador.VerOrdenesActivity"></activity>
+        <activity android:name=".actividades.comprador.VerOrdenesActivity" />
+        <activity android:name=".actividades.delivery.VerOrdenesPendientesActivity"></activity>
     </application>
 
 </manifest>

@@ -21,6 +21,7 @@ object Constante {
 
     const val ESTADO_ORDEN_RESERVADO = "Reservado"
     const val ESTADO_ORDEN_EN_ESPERA = "En orden"
+    const val ESTADO_ORDEN_ACEPTADO = "Aceptado"
 //    const val ESTADO_ORDEN_ENTREGADO = "Entregado"
 
 }
