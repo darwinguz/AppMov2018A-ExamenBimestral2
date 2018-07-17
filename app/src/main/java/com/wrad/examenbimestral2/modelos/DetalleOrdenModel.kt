@@ -5,7 +5,11 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 class DetalleOrdenModel(
-        var id: String,
-        var comida: ComidaModel?,
-        var precio: Double
-) : Parcelable
+        val id: String?,
+        val comida: ComidaModel?,
+        val precio: Double?
+) : Parcelable {
+
+    constructor(comida: ComidaModel, precio: Double)
+            : this(null, comida, precio)
+}

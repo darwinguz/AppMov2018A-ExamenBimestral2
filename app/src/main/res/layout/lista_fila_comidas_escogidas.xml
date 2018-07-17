@@ -10,12 +10,25 @@
 
 
     <TextView
-        android:id="@+id/lbl_nombre_lista_comida_escogida"
-        android:layout_width="match_parent"
+        android:id="@+id/lbl_nombre_lista_detalles_orden"
+        android:layout_width="400dp"
         android:layout_height="48dp"
         android:layout_weight="1"
         android:gravity="center"
         android:text="Nombre"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="16dp" />
+
+    <TextView
+        android:id="@+id/lbl_precio_lista_detalles_orden"
+        android:layout_width="300dp"
+        android:layout_height="48dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="Precio"
+        android:textAlignment="textEnd"
         android:textSize="24sp"
         android:textStyle="bold"
         tools:layout_editor_absoluteX="8dp"

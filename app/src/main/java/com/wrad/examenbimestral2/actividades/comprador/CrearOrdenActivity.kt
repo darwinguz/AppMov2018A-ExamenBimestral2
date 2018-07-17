@@ -6,17 +6,20 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import com.wrad.examenbimestral2.R
-import com.wrad.examenbimestral2.adapters.ComidasEscogidasCompradorAdapter
-import com.wrad.examenbimestral2.modelos.ComidaModel
+import com.wrad.examenbimestral2.adapters.DetallesOrdenAdapter
+import com.wrad.examenbimestral2.modelos.DetalleOrdenModel
+import com.wrad.examenbimestral2.modelos.OrdenModel
 import kotlinx.android.synthetic.main.activity_crear_orden.*
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class CrearOrdenActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: RecyclerView.LayoutManager
-    private lateinit var items: ArrayList<ComidaModel>
+    private lateinit var detallesOrden: ArrayList<DetalleOrdenModel>
+
 
     companion object {
         private const val TAG = "CrearOrdenActivity"
@@ -29,8 +32,10 @@ class CrearOrdenActivity : AppCompatActivity() {
 
         val carritoCompras = SeleccionarItemsActivity.carritoCompras
 
+        detallesOrden = ArrayList()
         SeleccionarItemsActivity.carritoCompras.forEach {
             Log.i(TAG, it.toString())
+            detallesOrden.add(DetalleOrdenModel(it, 1.00))
         }
 
         txt_total_comidas_crear_orden.setText(carritoCompras.size.toString())
@@ -43,12 +48,15 @@ class CrearOrdenActivity : AppCompatActivity() {
         txt_costo_entrega_crear_orden.setText("200")
         txt_costo_entrega_crear_orden.isEnabled = false
 
-        iniciarRecyclerView(carritoCompras)
+        iniciarRecyclerView(detallesOrden)
+
+        btn_crear_orden.setOnClickListener {
+        }
     }
 
-    private fun iniciarRecyclerView(items: List<ComidaModel>) {
+    private fun iniciarRecyclerView(items: List<DetalleOrdenModel>) {
         viewManager = LinearLayoutManager(this)
-        viewAdapter = ComidasEscogidasCompradorAdapter(items as ArrayList<ComidaModel>)
+        viewAdapter = DetallesOrdenAdapter(items as ArrayList<DetalleOrdenModel>)
 
         recyclerView = findViewById<RecyclerView>(R.id.recycler_view_escogidos_comprador).apply {
             // use this setting to improve performance if you know that changes

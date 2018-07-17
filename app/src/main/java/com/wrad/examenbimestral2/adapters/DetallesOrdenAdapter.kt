@@ -5,16 +5,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.wrad.examenbimestral2.R
-import com.wrad.examenbimestral2.modelos.ComidaModel
+import com.wrad.examenbimestral2.modelos.DetalleOrdenModel
 import kotlinx.android.synthetic.main.lista_fila_comidas_escogidas.view.*
 import java.util.*
 
 
-class ComidasEscogidasCompradorAdapter(private var items: ArrayList<ComidaModel>) :
-        RecyclerView.Adapter<ComidasEscogidasCompradorAdapter.ViewHolder>() {
+class DetallesOrdenAdapter(private var items: ArrayList<DetalleOrdenModel>) :
+        RecyclerView.Adapter<DetallesOrdenAdapter.ViewHolder>() {
 
     //FIXME no se puede acceder desde la instancia en FotosComidaActivity ??? why???
-    fun swap(datas: ArrayList<ComidaModel>?) {
+    fun swap(datas: ArrayList<DetalleOrdenModel>?) {
         if (datas == null || datas.size == 0)
             return
         if (items.size > 0)
@@ -45,8 +45,8 @@ class ComidasEscogidasCompradorAdapter(private var items: ArrayList<ComidaModel>
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
 
-        holder.view.lbl_nombre_lista_comida_escogida.text = items[position].nombrePlato
-
+        holder.view.lbl_nombre_lista_detalles_orden.text = items[position].comida!!.nombrePlato
+        holder.view.lbl_precio_lista_detalles_orden.text = items[position].precio.toString()
     }
 
 
