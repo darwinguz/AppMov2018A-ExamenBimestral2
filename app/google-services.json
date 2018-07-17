@@ -15,14 +15,6 @@
       },
       "oauth_client": [
         {
-          "client_id": "380024035714-t5k79ocktjeh2nifeumiqpg3fn4dm9b1.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.wrad.examenbimestral2",
-            "certificate_hash": "4cae4af7a8edb9e836b6b7573b2d96d8281220f1"
-          }
-        },
-        {
           "client_id": "380024035714-nqcr6qm1qf88uljtgcgbldbeo1gbklmg.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -37,13 +29,8 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 2,
-          "other_platform_oauth_client": [
-            {
-              "client_id": "380024035714-nqcr6qm1qf88uljtgcgbldbeo1gbklmg.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "status": 1,
+          "other_platform_oauth_client": []
         },
         "ads_service": {
           "status": 2

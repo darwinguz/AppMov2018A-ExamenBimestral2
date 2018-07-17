@@ -12,4 +12,7 @@ class DetalleOrdenModel(
 
     constructor(comida: ComidaModel, precio: Double)
             : this(null, comida, precio)
+
+    constructor()
+            : this(null, null, null)
 }
