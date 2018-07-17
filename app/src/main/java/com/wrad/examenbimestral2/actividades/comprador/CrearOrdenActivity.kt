@@ -27,18 +27,23 @@ class CrearOrdenActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_crear_orden)
 
+        val carritoCompras = SeleccionarItemsActivity.carritoCompras
+
         SeleccionarItemsActivity.carritoCompras.forEach {
             Log.i(TAG, it.toString())
         }
 
-//        txt_total_crear_orden.setText(items.size)
-        txt_total_crear_orden.isEnabled = false
+        txt_total_comidas_crear_orden.setText(carritoCompras.size.toString())
+        txt_total_comidas_crear_orden.isEnabled = false
         //txt_ubicacion_crear_orden.text
         txt_costo_delivery_crear_orden.setText("100")
+        txt_costo_delivery_crear_orden.isEnabled = false
         txt_fecha_entrega_crear_orden.setText(Date().toString())
+        txt_fecha_entrega_crear_orden.isEnabled = false
         txt_costo_entrega_crear_orden.setText("200")
+        txt_costo_entrega_crear_orden.isEnabled = false
 
-//        iniciarRecyclerView(items)
+        iniciarRecyclerView(carritoCompras)
     }
 
     private fun iniciarRecyclerView(items: List<ComidaModel>) {
