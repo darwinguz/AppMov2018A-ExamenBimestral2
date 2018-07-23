@@ -9,6 +9,7 @@ import com.wrad.examenbimestral2.R
 import com.wrad.examenbimestral2.modelos.OrdenModel
 import com.wrad.examenbimestral2.servicios.DatabaseService
 import com.wrad.examenbimestral2.utilitarios.Constante
+import com.wrad.examenbimestral2.utilitarios.Notificacion
 import kotlinx.android.synthetic.main.lista_fila_ordenes_comprador.view.*
 import java.util.*
 
@@ -54,10 +55,10 @@ class OrdenesCompradorAdapter(private var items: ArrayList<OrdenModel>) :
         holder.view.lbl_costo_entrega_ordenes_comprador.text = items[position].costoEntrega.toString()
         holder.view.lbl_total_ordenes_comprador.text = items[position].total.toString()
         holder.view.btn_cofirmar_ordenes_comprador.setOnClickListener {
-            //TODO cambiar estado y enviar push
             items[position].estado = Constante.ESTADO_ORDEN_EN_ESPERA
             notifyDataSetChanged()
             DatabaseService.updateSpecificValue("${Constante.ORDEN_FIREBASE}/${FirebaseAuth.getInstance().currentUser!!.uid}", items[position].id!!, "estado", Constante.ESTADO_ORDEN_EN_ESPERA)
+            DatabaseService.updateSpecificValue("${Constante.ORDEN_FIREBASE}/${FirebaseAuth.getInstance().currentUser!!.uid}", items[position].id!!, "token", Notificacion.getTokenDevice().toString())
         }
     }
 

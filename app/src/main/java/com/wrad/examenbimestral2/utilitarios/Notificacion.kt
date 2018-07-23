@@ -39,7 +39,6 @@ object Notificacion {
         }
     }
 
-
     fun getTokenDevice(): String? {
         return FirebaseInstanceId.getInstance().token
     }

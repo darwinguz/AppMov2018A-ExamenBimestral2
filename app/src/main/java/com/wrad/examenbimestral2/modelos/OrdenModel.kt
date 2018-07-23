@@ -15,9 +15,11 @@ class OrdenModel(
         var costoDelivery: Double?,
         var fechaEntrega: Date?,
         var costoEntrega: Double?,
-        var detallesOrden: List<DetalleOrdenModel>?
+        var detallesOrden: List<DetalleOrdenModel>?,
+        var token: String?
 ) : Parcelable {
     constructor() : this(
+            null,
             null,
             null,
             null,
@@ -40,6 +42,6 @@ class OrdenModel(
             fechaEntrega: Date,
             costoEntrega: Double,
             detallesOrden: List<DetalleOrdenModel>
-    ) : this(null, usuario, fecha, total, estado, ubicacionEntrega, costoDelivery, fechaEntrega, costoEntrega, detallesOrden)
+    ) : this(null, usuario, fecha, total, estado, ubicacionEntrega, costoDelivery, fechaEntrega, costoEntrega, detallesOrden, null)
 }
 
