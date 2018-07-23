@@ -59,6 +59,7 @@ class OrdenesCompradorAdapter(private var items: ArrayList<OrdenModel>) :
             notifyDataSetChanged()
             DatabaseService.updateSpecificValue("${Constante.ORDEN_FIREBASE}/${FirebaseAuth.getInstance().currentUser!!.uid}", items[position].id!!, "estado", Constante.ESTADO_ORDEN_EN_ESPERA)
             DatabaseService.updateSpecificValue("${Constante.ORDEN_FIREBASE}/${FirebaseAuth.getInstance().currentUser!!.uid}", items[position].id!!, "token", Notificacion.getTokenDevice().toString())
+            Notificacion.sendNotification(Constante.TOKEN_DELIVERY, "Notificacion de Orden", "Tiene ordenes por confirmar...")
         }
     }
 

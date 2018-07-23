@@ -4,12 +4,12 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.google.firebase.auth.FirebaseAuth
 import com.wrad.examenbimestral2.R
 import com.wrad.examenbimestral2.actividades.delivery.VerOrdenesPendientesActivity
 import com.wrad.examenbimestral2.modelos.OrdenModel
 import com.wrad.examenbimestral2.servicios.DatabaseService
 import com.wrad.examenbimestral2.utilitarios.Constante
+import com.wrad.examenbimestral2.utilitarios.Notificacion
 import kotlinx.android.synthetic.main.lista_fila_ordenes_delivery.view.*
 import java.util.*
 
@@ -57,10 +57,11 @@ class OrdenesDeliveryAdapter(private var items: ArrayList<OrdenModel>) :
         holder.view.btn_aceptar_ordenes_comprador.setOnClickListener {
             VerOrdenesPendientesActivity.ordenesAceptadas.add(items[position])
 //            holder.view.btn_aceptar_ordenes_comprador.isClickable = false
-            //TODO cambiar estado y enviar push
+            //TODO no cambiar estado con comprador ID quemado, crear dto
             items[position].estado = Constante.ESTADO_ORDEN_ACEPTADO
             notifyDataSetChanged()
             DatabaseService.updateSpecificValue("${Constante.ORDEN_FIREBASE}/BWGCMr4uXNNfOriir7P2HDrkkeB2", items[position].id!!, "estado", Constante.ESTADO_ORDEN_ACEPTADO)
+            Notificacion.sendNotification(items[position].token.toString(), "Confirmacion de Orden", "Su orden ha sido confirmada, pronto le llegara su pedido...")
         }
     }
 
